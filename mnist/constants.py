@@ -9,3 +9,8 @@ import mnist.custom_utils.readonly as ro
 class Constants(ro.ReadOnly):
     IMAGE_EXTENSION = 'png'
     METADATA_EXTENSION = 'json'
+
+
+class MetadataFields(ro.ReadOnly):
+    ID = 'id'
+    LABEL = 'label'

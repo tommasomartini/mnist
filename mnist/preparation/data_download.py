@@ -7,6 +7,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import mnist.file_interface as fi
+from mnist.constants import MetadataFields
 from mnist.custom_utils.logger import std_logger
 
 
@@ -41,8 +42,8 @@ def _save_sample_metadata(data_dir, sample_id, label, dry=False):
     meta_path = fi.get_metadata_path(data_dir, sample_id)
     meta_dir = os.path.dirname(meta_path)
     meta = {
-        'id': sample_id,
-        'label': label,
+        MetadataFields.ID: sample_id,
+        MetadataFields.LABEL: label,
     }
     if not dry:
         fi.mkdir_if_not_exists(meta_dir)
