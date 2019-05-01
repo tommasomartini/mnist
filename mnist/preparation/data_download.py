@@ -7,7 +7,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import mnist.file_interface as fi
-from mnist.custom_utils.logger import logger
+from mnist.custom_utils.logger import std_logger
 
 
 def _save_sample_image(data_dir, sample_id, raw_image, dry=False):
@@ -64,7 +64,7 @@ def download_mnist_data(data_dir, silent=False, dry=False):
             Defaults to False.
     """
     if dry:
-        logger.warning('Dry run!')
+        std_logger.warning('Dry run!')
 
     mnist = tf.keras.datasets.mnist
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -88,4 +88,4 @@ def download_mnist_data(data_dir, silent=False, dry=False):
     log_msg = 'Downloaded {} samples in {}'.format(sample_idx + 1, data_dir)
     if dry:
         log_msg = '(Dry-)' + log_msg
-    logger.info(log_msg)
+    std_logger.info(log_msg)
