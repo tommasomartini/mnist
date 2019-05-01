@@ -125,6 +125,22 @@ class TestMetadataReader(unittest.TestCase):
         'label': 5,
     }
 
+    # get_id
+
+    def test_get_id_success(self):
+        expected_id = self._META['id']
+        id = fi.MetadataReader.get_id(self._META)
+        self.assertEqual(id, expected_id)
+
+    def test_get_id_missing_field(self):
+        meta = {
+            'label': 5,
+        }
+        with self.assertRaises(KeyError):
+            fi.MetadataReader.get_id(meta)
+
+    # get_label
+
     def test_get_label_success(self):
         expected_label = self._META['label']
         label = fi.MetadataReader.get_label(self._META)

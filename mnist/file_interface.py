@@ -110,5 +110,9 @@ def get_metadata_path(data_dir, sample_id):
 class MetadataReader:
 
     @staticmethod
+    def get_id(meta):
+        return meta[MetadataFields.ID]
+
+    @staticmethod
     def get_label(meta):
         return meta[MetadataFields.LABEL]
