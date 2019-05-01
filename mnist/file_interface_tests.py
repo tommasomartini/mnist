@@ -113,3 +113,26 @@ class TestGetMetadatPath(unittest.TestCase):
         meta_path = fi.get_metadata_path(data_dir=self._BASE_DIR,
                                          sample_id=self._SAMPLE_ID)
         self.assertEqual(meta_path, expected_meta_path)
+
+
+################################################################################
+# Metadata readers #############################################################
+################################################################################
+
+class TestMetadataReader(unittest.TestCase):
+    _META = {
+        'id': 'foo',
+        'label': 5,
+    }
+
+    def test_get_label_success(self):
+        expected_label = self._META['label']
+        label = fi.MetadataReader.get_label(self._META)
+        self.assertEqual(label, expected_label)
+
+    def test_get_label_missing_field(self):
+        meta = {
+            'id': 'foo',
+        }
+        with self.assertRaises(KeyError):
+            fi.MetadataReader.get_label(meta)

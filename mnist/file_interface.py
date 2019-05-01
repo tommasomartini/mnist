@@ -4,6 +4,7 @@ from enum import Enum
 
 from mnist.config import GeneralConfig
 from mnist.constants import Constants
+from mnist.constants import MetadataFields
 
 
 class _SampleFileType(Enum):
@@ -100,3 +101,14 @@ def get_metadata_path(data_dir, sample_id):
                                       sample_id,
                                       file_type=_SampleFileType.METADATA)
     return meta_path
+
+
+################################################################################
+# Metadata readers #############################################################
+################################################################################
+
+class MetadataReader:
+
+    @staticmethod
+    def get_label(meta):
+        return meta[MetadataFields.LABEL]
