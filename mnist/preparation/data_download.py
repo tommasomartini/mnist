@@ -82,7 +82,7 @@ def download_mnist_data(data_dir, silent=False, dry=False):
                            dry=dry)
         _save_sample_metadata(data_dir=data_dir,
                               sample_id=sample_id,
-                              label=label,
+                              label=int(label),
                               dry=dry)
 
     log_msg = 'Downloaded {} samples in {}'.format(sample_idx + 1, data_dir)
