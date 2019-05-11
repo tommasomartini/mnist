@@ -13,7 +13,7 @@ def main():
     dataset_def_dir = config.GeneralConfig.DATASET_DEF_DIR
     if not os.path.exists(dataset_def_dir):
         raise IOError('Dataset definition folder {} '
-                      'does not exist'.format(data_dir))
+                      'does not exist'.format(dataset_def_dir))
 
     d_dload.download_mnist_data(data_dir=data_dir,
                                 silent=False,
