@@ -1,5 +1,7 @@
 import logging
 
+from python_log_indenter import IndentedLoggerAdapter
+
 import mnist.config as config
 import mnist.constants as constants
 
@@ -22,11 +24,13 @@ _std_stream_handler = logging.StreamHandler()
 _std_stream_handler.setFormatter(_std_formatter)
 
 # Standard logger.
-std_logger = logging.getLogger(constants.LoggerNames.STD)
-std_logger.handlers = [_std_stream_handler]
-std_logger.setLevel(_LOGGING_LEVEL)
+_std_logger = logging.getLogger(constants.LoggerNames.STD)
+_std_logger.handlers = [_std_stream_handler]
+_std_logger.setLevel(_LOGGING_LEVEL)
+std_logger = IndentedLoggerAdapter(_std_logger)
 
 # Data setup logger.
-data_setup_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
-data_setup_logger.handlers = [_std_stream_handler]
-data_setup_logger.setLevel(_LOGGING_LEVEL)
+_data_setup_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
+_data_setup_logger.handlers = [_std_stream_handler]
+_data_setup_logger.setLevel(_LOGGING_LEVEL)
+data_setup_logger = IndentedLoggerAdapter(_data_setup_logger)
