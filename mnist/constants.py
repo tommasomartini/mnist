@@ -27,6 +27,6 @@ DatasetFilenames = {
         (Constants.TRAINING_SET_NAME, Constants.METADATA_EXTENSION)),
     Constants.VALIDATION_SET_NAME: os.path.extsep.join(
         (Constants.VALIDATION_SET_NAME, Constants.METADATA_EXTENSION)),
-    Constants.TEST_SET: os.path.extsep.join(
-        (Constants.TEST_SET, Constants.METADATA_EXTENSION)),
+    Constants.TEST_SET_NAME: os.path.extsep.join(
+        (Constants.TEST_SET_NAME, Constants.METADATA_EXTENSION)),
 }
