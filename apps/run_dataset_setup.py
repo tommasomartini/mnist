@@ -1,20 +1,30 @@
 import os
 
+import mnist.config as config
 import mnist.preparation.data_download as d_dload
 import mnist.preparation.generate_datasets as gd
-from mnist.config import GeneralConfig
 
 
 def main():
-    data_dir = GeneralConfig.DATA_DIR
+    data_dir = config.GeneralConfig.DATA_DIR
     if not os.path.exists(data_dir):
         raise IOError('Base data folder {} does not exist'.format(data_dir))
 
+    dataset_def_dir = config.GeneralConfig.DATASET_DEF_DIR
+    if not os.path.exists(dataset_def_dir):
+        raise IOError('Dataset definition folder {} '
+                      'does not exist'.format(data_dir))
+
     d_dload.download_mnist_data(data_dir=data_dir,
                                 silent=False,
-                                dry=True)
+                                dry=False)
 
-    gd.generate_datasets(data_dir)
+    data_split_weights = config.GeneralConfig.DATA_SPLIT_WEIGHTS
+    gd.generate_datasets(data_dir=data_dir,
+                         dataset_def_dir=dataset_def_dir,
+                         data_split_weights=data_split_weights,
+                         silent=False,
+                         dry=False)
 
 
 if __name__ == '__main__':
