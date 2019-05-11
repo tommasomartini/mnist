@@ -5,9 +5,12 @@ import random
 import numpy as np
 from tqdm import tqdm
 
+import mnist.config as config
 import mnist.constants as constants
 import mnist.file_interface as fi
 from mnist.custom_utils.logger import std_logger as logger
+
+random.seed(config.GeneralConfig.RANDOM_SEED)
 
 
 def _gather_samples_by_class(data_dir, silent=False):
