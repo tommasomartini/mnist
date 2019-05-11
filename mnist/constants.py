@@ -14,3 +14,14 @@ class Constants(ro.ReadOnly):
 class MetadataFields(ro.ReadOnly):
     ID = 'id'
     LABEL = 'label'
+
+
+class Filenames(ro.ReadOnly):
+    TRAINING_SET = 'training_set.json'
+    VALIDATION_SET = 'validation_set.json'
+    TEST_SET = 'test_set.json'
+
+
+class LoggerNames(ro.ReadOnly):
+    STD = 'STD'
+    DATA_SETUP = 'DATA_SETUP'

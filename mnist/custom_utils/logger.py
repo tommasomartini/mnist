@@ -1,10 +1,11 @@
 import logging
 
-from mnist.config import GeneralConfig
+import mnist.config as config
+import mnist.constants as constants
 
 # General logger.
-_LOGGING_LEVEL = GeneralConfig.LOGGING_LEVEL
-_logging_format = '[%(levelname)s]:%(message)s'
+_LOGGING_LEVEL = config.GeneralConfig.LOGGING_LEVEL
+_logging_format = '[%(name)s][%(levelname)s] %(message)s'
 
 # Warning!
 # When using TensorFlow, the standard logging is shadowed by absl.logging, as
@@ -20,6 +21,12 @@ _std_formatter = logging.Formatter(_logging_format)
 _std_stream_handler = logging.StreamHandler()
 _std_stream_handler.setFormatter(_std_formatter)
 
-std_logger = logging.getLogger()
+# Standard logger.
+std_logger = logging.getLogger(constants.LoggerNames.STD)
+std_logger.handlers = [_std_stream_handler]
+std_logger.setLevel(_LOGGING_LEVEL)
+
+# Data setup logger.
+std_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
 std_logger.handlers = [_std_stream_handler]
 std_logger.setLevel(_LOGGING_LEVEL)
