@@ -27,6 +27,6 @@ std_logger.handlers = [_std_stream_handler]
 std_logger.setLevel(_LOGGING_LEVEL)
 
 # Data setup logger.
-std_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
-std_logger.handlers = [_std_stream_handler]
-std_logger.setLevel(_LOGGING_LEVEL)
+data_setup_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
+data_setup_logger.handlers = [_std_stream_handler]
+data_setup_logger.setLevel(_LOGGING_LEVEL)
