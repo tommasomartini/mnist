@@ -129,8 +129,8 @@ class TestMetadataReader(unittest.TestCase):
 
     def test_get_id_success(self):
         expected_id = self._META['id']
-        id = fi.MetadataReader.get_id(self._META)
-        self.assertEqual(id, expected_id)
+        sample_id = fi.MetadataReader.get_id(self._META)
+        self.assertEqual(sample_id, expected_id)
 
     def test_get_id_missing_field(self):
         meta = {
@@ -152,3 +152,29 @@ class TestMetadataReader(unittest.TestCase):
         }
         with self.assertRaises(KeyError):
             fi.MetadataReader.get_label(meta)
+
+
+################################################################################
+# Others #######################################################################
+################################################################################
+
+class TestGetAllMetadataFilepathsFromDir(fake_filesystem_unittest.TestCase):
+
+    def setUp(self):
+        self.setUpPyfakefs()
+        self._data_dir = '/my/base/dir'
+
+        sample_ids = ['foo', 'bar', 'baz']
+        self._metadata_paths = sorted([
+            fi.get_metadata_path(self._data_dir, sample_id)
+            for sample_id in sample_ids
+        ])
+
+        for meta_path in self._metadata_paths:
+            self.fs.create_file(meta_path)
+
+    def test_success(self):
+        metadata_paths = fi.get_all_metadata_filepaths_from_dir(self._data_dir)
+        sorted_metadata_paths = sorted(metadata_paths)
+        self.assertListEqual(sorted_metadata_paths,
+                             self._metadata_paths)

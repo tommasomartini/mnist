@@ -1,10 +1,10 @@
+import glob
 import hashlib
 import os
 from enum import Enum
 
-from mnist.config import GeneralConfig
-from mnist.constants import Constants
-from mnist.constants import MetadataFields
+import mnist.config as config
+import mnist.constants as constants
 
 
 class _SampleFileType(Enum):
@@ -75,15 +75,15 @@ def mkdir_if_not_exists(dir_path):
 
 def _get_sample_file_path(data_dir, sample_id, file_type):
     if file_type == _SampleFileType.IMAGE:
-        file_ext = Constants.IMAGE_EXTENSION
+        file_ext = constants.Constants.IMAGE_EXTENSION
     elif file_type == _SampleFileType.METADATA:
-        file_ext = Constants.METADATA_EXTENSION
+        file_ext = constants.Constants.METADATA_EXTENSION
     else:
         raise ValueError('Unknown sample file type {}'.format(file_type))
 
     hash_subdir = _get_hash_subdir(
         sample_id,
-        num_levels=GeneralConfig.NUM_HASH_SUBDIR_LEVELS)
+        num_levels=config.GeneralConfig.NUM_HASH_SUBDIR_LEVELS)
     filename = str(sample_id) + os.path.extsep + file_ext
     filepath = os.path.join(data_dir, hash_subdir, filename)
     return filepath
@@ -111,8 +111,43 @@ class MetadataReader:
 
     @staticmethod
     def get_id(meta):
-        return meta[MetadataFields.ID]
+        return meta[constants.MetadataFields.ID]
 
     @staticmethod
     def get_label(meta):
-        return meta[MetadataFields.LABEL]
+        return meta[constants.MetadataFields.LABEL]
+
+
+################################################################################
+# Others #######################################################################
+################################################################################
+
+def get_all_metadata_filepaths_from_dir(data_dir):
+    """Returns all the metadata filepaths in a folder.
+
+    Args:
+        data_dir (str): Path to the data folder to scan.
+
+    Returns:
+        A list of metadata file paths.
+    """
+    # The metadata file pattern should be something like '*.json'.
+    meta_file_pattern = '*' \
+                        + os.path.extsep \
+                        + constants.Constants.METADATA_EXTENSION
+
+    # Relative path like: '*/*/*'.
+    # Add as many '*' as the number of subfolders.
+    hash_subdir_pattern = tuple([
+        '*' for _
+        in range(config.GeneralConfig.NUM_HASH_SUBDIR_LEVELS)
+    ])
+
+    # Put the path pattern together into something like:
+    #   /path/to/data/*/*/*.json
+    path_pieces = (data_dir,) + hash_subdir_pattern + (meta_file_pattern,)
+    meta_path_pattern = os.path.join(*path_pieces)
+
+    all_meta_paths = glob.glob(meta_path_pattern)
+
+    return all_meta_paths
