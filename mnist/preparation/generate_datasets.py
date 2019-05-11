@@ -9,12 +9,6 @@ import mnist.constants as constants
 import mnist.file_interface as fi
 from mnist.custom_utils.logger import std_logger as logger
 
-_SPLIT_NAME_TO_FILENAME = {
-    constants.Constants.TRAINING_SET_NAME: constants.Filenames.TRAINING_SET,
-    constants.Constants.VALIDATION_SET_NAME: constants.Filenames.VALIDATION_SET,
-    constants.Constants.TEST_SET_NAME: constants.Filenames.TEST_SET,
-}
-
 
 def _gather_samples_by_class(data_dir, silent=False):
     """Returns a dict of all the sample ids, divided by class label.
@@ -53,7 +47,7 @@ def generate_datasets(data_dir,
                       data_split_weights,
                       silent=False,
                       dry=False):
-    if set(data_split_weights.keys()) != set(_SPLIT_NAME_TO_FILENAME.keys()):
+    if set(data_split_weights.keys()) != set(constants.DatasetFilenames.keys()):
         raise ValueError('Names of the split sets do not match the known names'
                          'for filename mapping')
 
@@ -62,6 +56,14 @@ def generate_datasets(data_dir,
 
     if not os.path.exists(dataset_def_dir):
         raise IOError('Folder {} does not exist'.format(dataset_def_dir))
+
+    # Early check that the files we are going to generate do not exist.
+    if not dry:
+        for split_name, filename in constants.DatasetFilenames.items():
+            dataset_path = os.path.join(dataset_def_dir, filename)
+            if os.path.exists(dataset_path):
+                raise ValueError('Dataset {} '
+                                 'already exists'.format(dataset_path))
 
     if dry:
         logger.warning('Dry run!')
@@ -133,16 +135,10 @@ def generate_datasets(data_dir,
         logger.info('Dataset {}: {} samples'.format(split_name,
                                                     len(sample_ids)))
 
-        filename = _SPLIT_NAME_TO_FILENAME.get(split_name, None)
-        if filename is None:
-            raise ValueError('Unknown filename for split {}'.format(split_name))
-
+        filename = constants.DatasetFilenames[split_name]
         dataset_path = os.path.join(dataset_def_dir, filename)
-        if os.path.exists(dataset_path):
-            raise ValueError('Dataset {} already exists'.format(dataset_path))
-
         sorted_sample_ids = sorted(list(sample_ids))
         if not dry:
             with open(dataset_path, 'w') as f:
                 json.dump(sorted_sample_ids, f, indent=4)
-        logger.info('Dataset {} stored at {}'.format(split_name, dataset_path))
+            logger.info('Dataset {} stored at {}'.format(split_name, dataset_path))
