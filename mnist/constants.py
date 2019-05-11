@@ -29,8 +29,3 @@ class Filenames(ro.ReadOnly):
                                           Constants.METADATA_EXTENSION))
     TEST_SET = os.path.extsep.join((Constants.TEST_SET_NAME,
                                     Constants.METADATA_EXTENSION))
-
-
-class LoggerNames(ro.ReadOnly):
-    STD = 'STD'
-    DATA_SETUP = 'DATA_SETUP'

@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 import mnist.constants as constants
 import mnist.file_interface as fi
-from mnist.custom_utils.logger import data_setup_logger as logger
+from mnist.custom_utils.logger import std_logger as logger
 
 _SPLIT_NAME_TO_FILENAME = {
     constants.Constants.TRAINING_SET_NAME: constants.Filenames.TRAINING_SET,

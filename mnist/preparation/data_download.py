@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 import mnist.file_interface as fi
 from mnist.constants import MetadataFields
-from mnist.custom_utils.logger import _data_setup_logger as logger
+from mnist.custom_utils.logger import std_logger as logger
 
 
 def _save_sample_image(data_dir, sample_id, raw_image, dry=False):

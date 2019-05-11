@@ -7,7 +7,7 @@ import mnist.constants as constants
 
 # General logger.
 _LOGGING_LEVEL = config.GeneralConfig.LOGGING_LEVEL
-_logging_format = '[%(name)s][%(levelname)s] %(message)s'
+_logging_format = '[%(levelname)s] %(message)s'
 
 # Warning!
 # When using TensorFlow, the standard logging is shadowed by absl.logging, as
@@ -23,14 +23,7 @@ _std_formatter = logging.Formatter(_logging_format)
 _std_stream_handler = logging.StreamHandler()
 _std_stream_handler.setFormatter(_std_formatter)
 
-# Standard logger.
-_std_logger = logging.getLogger(constants.LoggerNames.STD)
+_std_logger = logging.getLogger()
 _std_logger.handlers = [_std_stream_handler]
 _std_logger.setLevel(_LOGGING_LEVEL)
 std_logger = IndentedLoggerAdapter(_std_logger)
-
-# Data setup logger.
-_data_setup_logger = logging.getLogger(constants.LoggerNames.DATA_SETUP)
-_data_setup_logger.handlers = [_std_stream_handler]
-_data_setup_logger.setLevel(_LOGGING_LEVEL)
-data_setup_logger = IndentedLoggerAdapter(_data_setup_logger)
