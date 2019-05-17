@@ -11,9 +11,17 @@ import mnist.custom_utils.readonly as ro
 class Constants(ro.ReadOnly):
     IMAGE_EXTENSION = 'png'
     METADATA_EXTENSION = 'json'
+
     TRAINING_SET_NAME = 'training_set'
     VALIDATION_SET_NAME = 'validation_set'
     TEST_SET_NAME = 'test_set'
+
+    MNIST_IMAGE_WIDTH = 28
+    MNIST_IMAGE_HEIGTH = 28
+    MNIST_IMAGE_CHANNELS = 1
+    MNIST_NUM_CLASSES = 10
+
+    EPOCH_CURSOR_MULTIPLIER = 1e6
 
 
 class MetadataFields(ro.ReadOnly):
@@ -21,7 +29,7 @@ class MetadataFields(ro.ReadOnly):
     LABEL = 'label'
 
 
-# Should be something like: "dataset_spit.json".
+# Should be something like: "dataset_split.json".
 DatasetFilenames = {
     Constants.TRAINING_SET_NAME: os.path.extsep.join(
         (Constants.TRAINING_SET_NAME, Constants.METADATA_EXTENSION)),
