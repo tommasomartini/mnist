@@ -21,3 +21,12 @@ class GeneralConfig(ro.ReadOnly):
         constants.Constants.VALIDATION_SET_NAME: 0.25,
         constants.Constants.TEST_SET_NAME: 0.25,
     }
+
+class TrainingConfig(ro.ReadOnly):
+    """Container for training configurations."""
+    NUM_EPOCHS = 50
+    BATCH_SIZE_TRAINING = 100
+    BATCH_SIZE_VALIDATION = BATCH_SIZE_TRAINING
+    BATCH_SIZE_TEST = BATCH_SIZE_TRAINING
+    LEARNING_RATE = 1e-3
+    DROP_LAST_INCOMPLETE_BATCH = True
