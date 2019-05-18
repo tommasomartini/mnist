@@ -62,8 +62,8 @@ class TrainingEngine:
 
         for batch_idx in count():
             try:
-                _train_op_out,\
-                train_loss_out,\
+                _train_op_out, \
+                train_loss_out, \
                 loss_summary_out = self._session.run([train_op,
                                                       train_loss,
                                                       loss_summary])
