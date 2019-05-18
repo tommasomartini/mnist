@@ -15,26 +15,27 @@ class TrainingEngine:
     def __init__(self):
 
         # Create and save the MetaGraph for the training graph.
-        if os.path.exists(paths.MetaGraphs.TRAINING):
+        metagraph_path = paths.MetaGraphs.TRAINING
+        if os.path.exists(metagraph_path):
             logger.info('Importing existing training MetaGraph '
-                        'from {}'.format(paths.MetaGraphs.TRAINING))
+                        'from {}'.format(metagraph_path))
             training_graph = tf.Graph()
             with training_graph.as_default():
-                tf.train.import_meta_graph(paths.MetaGraphs.TRAINING)
+                tf.train.import_meta_graph(metagraph_path)
         else:
             logger.info('Creating new training MetaGraph')
-            training_dataset_def_path = paths.DatasetDefinitions.TRAINING
-            with open(training_dataset_def_path, 'r') as f:
-                training_dataset_def = json.load(f)
+            training_set_def_path = paths.DatasetDefinitions.TRAINING
+            with open(training_set_def_path, 'r') as f:
+                training_set_def = json.load(f)
 
-            training_graph = graphs.build_training_graph(training_dataset_def)
+            training_graph = graphs.build_training_graph(training_set_def)
             with training_graph.as_default():
-                tf.train.export_meta_graph(paths.MetaGraphs.TRAINING)
+                tf.train.export_meta_graph(metagraph_path)
 
         self._session = tf.Session(graph=training_graph)
 
         with training_graph.as_default():
-            self._training_saver = tf.train.Saver(max_to_keep=1)
+            self._saver = tf.train.Saver(max_to_keep=1)
 
     def shut_down(self):
         """Shuts down the tf.Session associated with the training."""
@@ -72,7 +73,7 @@ class TrainingEngine:
 
     def resume(self):
         """Resumes the training session from a checkpoint file."""
-        self._training_saver.restore(self._session, paths.Checkpoints.TRAINING)
+        self._saver.restore(self._session, paths.Checkpoints.TRAINING)
 
     def save(self):
         """Saves on disk the checkpoint of the current session status.
@@ -80,6 +81,6 @@ class TrainingEngine:
         Only the trained weights are stored, not the MetaGraph defining the
         network architecture. The MetaGraph is stored in a separate file.
         """
-        self._training_saver.save(self._session,
-                                  paths.Checkpoints.TRAINING,
-                                  write_meta_graph=False)
+        self._saver.save(self._session,
+                         paths.Checkpoints.TRAINING,
+                         write_meta_graph=False)
