@@ -6,12 +6,12 @@ class Names(ro.ReadOnly):
     # # Network input
     # ITERATOR_HANDLE = 'iterator_handle'
 
-    # ###############################################################################################
-    # # Placeholders
+    ###############################################################################################
+    # Placeholders
     # IMAGES_PLACEHOLDER = 'images_placeholder'
 
-    # # Plotting graph.
-    # AVG_BATCH_LOSS_PLACEHOLDER = 'avg_batch_loss_placeholder'
+    # Plotting graph.
+    AVG_BATCH_LOSS_PLACEHOLDER = 'avg_batch_loss_placeholder'
     # ACCURACY_PLACEHOLDER = 'accuracy_placeholder'
     # CALIBRATION_LOSSES_PLACEHOLDER = 'calibration_losses_placeholder'
 
@@ -51,20 +51,16 @@ class Names(ro.ReadOnly):
     TRAINING_OPERATION = 'train_op'
     DATASET_INIT_OP = 'dataset_init_op'
 
-    # ###############################################################################################
-    # # Summaries
-    #
-    # # Training
-    # TRAINING_LOSS_SUMMARY = 'training_loss'
-    # TRAINING_SUMMARY_COLLECTION = 'training_summaries'
-    #
-    # # Calibration
-    # CALIBRATION_LOSS_SUMMARY = 'calibration_loss'
-    # CALIBRATION_SUMMARY_COLLECTION = 'calibration_summaries'
-    #
+    ###############################################################################################
+    # Summaries
+
+    # Training
+    TRAINING_LOSS_SUMMARY = 'training_loss'
+    TRAINING_SUMMARY_COLLECTION = 'training_summaries'
+
     # # Evaluation
     # EVALUATION_SUMMARY_COLLECTION = 'evaluation_summaries'
-    #
-    # # Plotting graph
-    # AVG_BATCH_LOSS_SUMMARY = 'avg_batch_loss'
+
+    # Plotting graph
+    AVG_BATCH_LOSS_SUMMARY = 'avg_batch_loss'
     # ACCURACY_SUMMARY = 'accuracy'

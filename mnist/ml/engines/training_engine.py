@@ -36,7 +36,7 @@ class TrainingEngine:
         with training_graph.as_default():
             self._training_saver = tf.train.Saver(max_to_keep=1)
 
-    def close(self):
+    def shut_down(self):
         """Shuts down the tf.Session associated with the training."""
         self._session.close()
 
@@ -56,16 +56,19 @@ class TrainingEngine:
         train_op = self._session.graph.get_operation_by_name(
             naming.Names.TRAINING_OPERATION)
         train_loss = self._session.graph.get_collection(tf.GraphKeys.LOSSES)[0]
-        # loss_summary = \
-        #     self._session.graph.get_collection(naming.Names.TRAINING_SUMMARY_COLLECTION)[0]
+        loss_summary = self._session.graph.get_collection(
+            naming.Names.TRAINING_SUMMARY_COLLECTION)[0]
 
         for batch_idx in count():
             try:
-                _train_op_out, train_loss_out = self._session.run([train_op,
-                                                                   train_loss])
+                _train_op_out,\
+                train_loss_out,\
+                loss_summary_out = self._session.run([train_op,
+                                                      train_loss,
+                                                      loss_summary])
             except tf.errors.OutOfRangeError:
                 break
-            yield batch_idx, train_loss_out
+            yield batch_idx, train_loss_out, loss_summary_out
 
     def resume(self):
         """Resumes the training session from a checkpoint file."""
