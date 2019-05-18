@@ -1,9 +1,11 @@
 import json
 import os
+from itertools import count
 
 import tensorflow as tf
 
 import mnist.ml.model.graphs as graphs
+import mnist.ml.model.naming as naming
 import mnist.paths as paths
 from mnist.custom_utils.logger import std_logger as logger
 
@@ -41,15 +43,29 @@ class TrainingEngine:
     def initialize(self):
         """Performs all the operations needed to initialize
         the training session."""
+        # Fetch and run the initialization operations.
         with self._session.graph.as_default():
             init_op = tf.global_variables_initializer()
+            dataset_init_op = self._session.graph.get_operation_by_name(
+                naming.Names.DATASET_INIT_OP)
         self._session.run(init_op)
+        self._session.run(dataset_init_op)
 
     def train_epoch(self):
         """Performs the training of one epoch of the training set."""
-        raise NotImplementedError()
-        # for training_tuple in training_iterable_on_dataset(self._session):
-        #     yield training_tuple
+        train_op = self._session.graph.get_operation_by_name(
+            naming.Names.TRAINING_OPERATION)
+        train_loss = self._session.graph.get_collection(tf.GraphKeys.LOSSES)[0]
+        # loss_summary = \
+        #     self._session.graph.get_collection(naming.Names.TRAINING_SUMMARY_COLLECTION)[0]
+
+        for batch_idx in count():
+            try:
+                _train_op_out, train_loss_out = self._session.run([train_op,
+                                                                   train_loss])
+            except tf.errors.OutOfRangeError:
+                break
+            yield batch_idx, train_loss_out
 
     def resume(self):
         """Resumes the training session from a checkpoint file."""
