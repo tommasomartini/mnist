@@ -46,7 +46,7 @@ def training_set_from_dataset_definition(dataset_definition):
     return dataset
 
 
-def evaluation_set_from_dataset_definition(dataset_definition):
+def validation_set_from_dataset_definition(dataset_definition):
     all_image_paths, all_sample_labels = \
         _images_and_labels_from_dataset_definition(dataset_definition)
     dataset = tf.data.Dataset.from_tensor_slices(

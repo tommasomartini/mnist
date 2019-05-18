@@ -52,3 +52,5 @@ DatasetFilenames = {
 class MetagraphFilenames(ro.ReadOnly):
     TRAINING = os.path.extsep.join(
         ('training_metagraph', Constants.METAGRAPH_EXTENSION))
+    VALIDATION = os.path.extsep.join(
+        ('validation_metagraph', Constants.METAGRAPH_EXTENSION))

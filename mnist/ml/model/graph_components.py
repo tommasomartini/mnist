@@ -41,23 +41,28 @@ def logits_from_feature_vector(input_feature_vector):
     return logits
 
 
-# def evaluation_outputs(logits, input_labels):
-#     with tf.name_scope(Names.OUTPUT_SCOPE):
-#         # Probabilities over the classes.
-#         probabilities = tf.nn.softmax(logits, name=Names.PROBABILITIES)
-#
-#         # The chosen class.
-#         prediction = tf.argmax(input=logits, axis=1, name=Names.PREDICTION)
-#
-#         # How many predictions match the labels (in each batch).
-#         is_prediction_correct = tf.equal(tf.cast(prediction, tf.int32), input_labels)
-#         num_correct_predictions = tf.reduce_sum(tf.cast(is_prediction_correct, tf.float32),
-#                                                 name=Names.NUM_CORRECT_PREDICTIONS)
-#
-#         # The number of samples in the current batch.
-#         batch_size = tf.shape(probabilities, name=Names.BATCH_SIZE)[0]
-#
-#     tf.add_to_collection(Names.OUTPUT_COLLECTION, probabilities)
-#     tf.add_to_collection(Names.OUTPUT_COLLECTION, prediction)
-#     tf.add_to_collection(Names.OUTPUT_COLLECTION, num_correct_predictions)
-#     tf.add_to_collection(Names.OUTPUT_COLLECTION, batch_size)
+def evaluation_outputs(logits, input_labels):
+    with tf.name_scope(naming.Names.OUTPUT_SCOPE):
+        # Probabilities over the classes.
+        probabilities = tf.nn.softmax(logits, name=naming.Names.PROBABILITIES)
+
+        # The chosen class.
+        prediction = tf.argmax(input=logits,
+                               axis=1,
+                               name=naming.Names.PREDICTION)
+
+        # How many predictions match the labels (in each batch).
+        is_prediction_correct = tf.equal(tf.cast(prediction, tf.int32),
+                                         input_labels)
+        num_correct_predictions = \
+            tf.reduce_sum(tf.cast(is_prediction_correct, tf.float32),
+                          name=naming.Names.NUM_CORRECT_PREDICTIONS)
+
+        # The number of samples in the current batch.
+        batch_size = tf.shape(probabilities, name=naming.Names.BATCH_SIZE)[0]
+
+    tf.add_to_collection(naming.Names.OUTPUT_COLLECTION, probabilities)
+    tf.add_to_collection(naming.Names.OUTPUT_COLLECTION, prediction)
+    tf.add_to_collection(naming.Names.OUTPUT_COLLECTION,
+                         num_correct_predictions)
+    tf.add_to_collection(naming.Names.OUTPUT_COLLECTION, batch_size)

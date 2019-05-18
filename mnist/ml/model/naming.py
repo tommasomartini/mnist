@@ -10,10 +10,9 @@ class Names(ro.ReadOnly):
     # Placeholders
     # IMAGES_PLACEHOLDER = 'images_placeholder'
 
-    # Plotting graph.
+    # Logging graph
     AVG_BATCH_LOSS_PLACEHOLDER = 'avg_batch_loss_placeholder'
-    # ACCURACY_PLACEHOLDER = 'accuracy_placeholder'
-    # CALIBRATION_LOSSES_PLACEHOLDER = 'calibration_losses_placeholder'
+    ACCURACY_PLACEHOLDER = 'accuracy_placeholder'
 
     ###############################################################################################
     # Convolutional backbone
@@ -34,17 +33,16 @@ class Names(ro.ReadOnly):
     ###############################################################################################
     # Loss
     LOSS_SCOPE = 'loss'
-
     EVALUATION_LOSS = 'evaluation_loss'
 
-    # ###############################################################################################
-    # # Outputs
-    # OUTPUT_SCOPE = 'output'
-    # OUTPUT_COLLECTION = 'output'
-    # PROBABILITIES = 'probabilities'
-    # PREDICTION = 'prediction'
-    # NUM_CORRECT_PREDICTIONS = 'num_correct_predictions'
-    # BATCH_SIZE = 'batch_size'
+    ###############################################################################################
+    # Outputs
+    OUTPUT_SCOPE = 'output'
+    OUTPUT_COLLECTION = 'output'
+    PROBABILITIES = 'probabilities'
+    PREDICTION = 'prediction'
+    NUM_CORRECT_PREDICTIONS = 'num_correct_predictions'
+    BATCH_SIZE = 'batch_size'
 
     ###############################################################################################
     # Operations
@@ -58,9 +56,9 @@ class Names(ro.ReadOnly):
     TRAINING_LOSS_SUMMARY = 'training_loss'
     TRAINING_SUMMARY_COLLECTION = 'training_summaries'
 
-    # # Evaluation
-    # EVALUATION_SUMMARY_COLLECTION = 'evaluation_summaries'
+    # Evaluation
+    EVALUATION_SUMMARY_COLLECTION = 'evaluation_summaries'
 
-    # Plotting graph
+    # Logging graph
     AVG_BATCH_LOSS_SUMMARY = 'avg_batch_loss'
-    # ACCURACY_SUMMARY = 'accuracy'
+    ACCURACY_SUMMARY = 'accuracy'

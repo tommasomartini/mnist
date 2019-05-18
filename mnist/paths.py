@@ -27,7 +27,10 @@ class DatasetDefinitions(ro.ReadOnly):
 class MetaGraphs(ro.ReadOnly):
     """Stores the paths to the MetaGraph files, containing the definitions
     of different graphs."""
-    TRAINING = os.path.join(_log_dir, constants.MetagraphFilenames.TRAINING)
+    TRAINING = os.path.join(_log_dir,
+                            constants.MetagraphFilenames.TRAINING)
+    VALIDATION = os.path.join(_log_dir,
+                              constants.MetagraphFilenames.VALIDATION)
 
 
 class Checkpoints(ro.ReadOnly):
