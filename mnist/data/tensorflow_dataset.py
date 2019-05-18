@@ -39,7 +39,8 @@ def training_set_from_dataset_definition(dataset_definition):
         .map(preproc.load_and_preprocess_sample,
              num_parallel_calls=AUTOTUNE) \
         .shuffle(buffer_size=num_samples) \
-        .batch(config.TrainingConfig.BATCH_SIZE_TRAINING) \
+        .batch(config.TrainingConfig.BATCH_SIZE_TRAINING,
+               drop_remainder=True) \
         .prefetch(buffer_size=AUTOTUNE)
 
     return dataset
@@ -52,7 +53,8 @@ def evaluation_set_from_dataset_definition(dataset_definition):
         (all_image_paths, all_sample_labels)) \
         .map(preproc.load_and_preprocess_sample,
              num_parallel_calls=AUTOTUNE) \
-        .batch(config.TrainingConfig.BATCH_SIZE_VALIDATION) \
+        .batch(config.TrainingConfig.BATCH_SIZE_VALIDATION,
+               drop_remainder=False) \
         .prefetch(buffer_size=AUTOTUNE)
 
     return dataset
