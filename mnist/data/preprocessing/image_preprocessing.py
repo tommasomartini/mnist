@@ -12,7 +12,8 @@ def preprocess_image(raw_image):
     tensor_image = tf.image.decode_png(
         raw_image,
         channels=constants.Constants.MNIST_IMAGE_CHANNELS)
-    float_image = tf.cast(tensor_image, dtype=tf.float32)
+    float_image = tf.cast(tensor_image,
+                          dtype=constants.Constants.IMAGE_DATA_TYPE)
     normalized_image = float_image / 255.0
     return normalized_image
 

@@ -5,6 +5,8 @@ You should not need to modify this file (not too often, at least!).
 """
 import os
 
+import numpy as np
+
 import mnist.custom_utils.readonly as ro
 
 
@@ -20,6 +22,9 @@ class Constants(ro.ReadOnly):
     MNIST_IMAGE_HEIGTH = 28
     MNIST_IMAGE_CHANNELS = 1
     MNIST_NUM_CLASSES = 10
+
+    IMAGE_DATA_TYPE = np.float32
+    LABEL_DATA_TYPE = np.int32
 
     EPOCH_CURSOR_MULTIPLIER = 1e6
 
