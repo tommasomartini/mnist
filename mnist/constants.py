@@ -11,12 +11,16 @@ import mnist.custom_utils.readonly as ro
 
 
 class Constants(ro.ReadOnly):
+    # Extensions.
     IMAGE_EXTENSION = 'png'
     METADATA_EXTENSION = 'json'
+    METAGRAPH_EXTENSION = 'meta'
 
     TRAINING_SET_NAME = 'training_set'
     VALIDATION_SET_NAME = 'validation_set'
     TEST_SET_NAME = 'test_set'
+
+    TRAINING_CKPT_NAME = 'training_ckpt'
 
     MNIST_IMAGE_WIDTH = 28
     MNIST_IMAGE_HEIGTH = 28
@@ -43,3 +47,8 @@ DatasetFilenames = {
     Constants.TEST_SET_NAME: os.path.extsep.join(
         (Constants.TEST_SET_NAME, Constants.METADATA_EXTENSION)),
 }
+
+
+class MetagraphFilenames(ro.ReadOnly):
+    TRAINING = os.path.extsep.join(
+        ('training_metagraph', Constants.METAGRAPH_EXTENSION))
