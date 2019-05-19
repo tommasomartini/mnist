@@ -75,9 +75,9 @@ class ExperimentScheduler:
 
         logger.info('Scheduler successfully set up')
 
-    ###############################################################################################
-    # Private methods #############################################################################
-    ###############################################################################################
+    ############################################################################
+    # Private methods ##########################################################
+    ############################################################################
 
     def _shut_down_engines(self):
         self._training_engine.shut_down()
@@ -135,9 +135,9 @@ class ExperimentScheduler:
 
         return avg_loss, accuracy
 
-    ###############################################################################################
-    # Scheduling functions ########################################################################
-    ###############################################################################################
+    ############################################################################
+    # Scheduling functions #####################################################
+    ############################################################################
 
     def _before_new_training(self):
         # Randomly initialize the training graph and evaluate the un-trained
@@ -160,8 +160,7 @@ class ExperimentScheduler:
                                      validation_loss=avg_loss)
 
     def _before_resuming_training(self):
-        # self._training_engine.resume()
-        pass
+        self._training_engine.resume()
 
     def _after_training(self):
         # TODO: evaluate on the test set.
@@ -215,29 +214,33 @@ class ExperimentScheduler:
     def run(self):
         num_epochs = config.TrainingConfig.NUM_EPOCHS
 
-        latest_trained_epoch_idx = self._training_status[Constants.LATEST_TRAINED_EPOCH_INDEX_KEY]
+        latest_trained_epoch_idx = \
+            self._training_status[_CNST.LATEST_TRAINED_KEY]
 
-        if latest_trained_epoch_idx < 0:
-            # If the last epoch index is -1, it means no epoch has been trained at all.
+        if latest_trained_epoch_idx == -1:
+            # No epoch has been trained: start a new training.
             self._before_new_training()
         else:
-            # Some epochs were trained. But was the last epoch evaluated?
-            latest_evaluated_epoch_idx = self._training_status[Constants.LATEST_EVALUATED_EPOCH_KEY][Constants.EPOCH_INDEX_KEY]
+            # Some epochs were trained. Was the last epoch evaluated?
+            latest_evaluated = self._training_status[_CNST.LATEST_EVALUATED_KEY]
+            latest_evaluated_epoch_idx = latest_evaluated[_CNST.EPOCH_IDX_KEY]
             if latest_evaluated_epoch_idx == latest_trained_epoch_idx - 1:
                 # The latest trained epoch was not evaluated.
                 self._after_epoch(latest_trained_epoch_idx)
             elif latest_evaluated_epoch_idx < latest_trained_epoch_idx - 1:
-                raise ValueError('Missing evaluations: the latest trained epoch index is {}, '
-                                 'but the latest evaluated epoch index is '
-                                 '{}'.format(latest_trained_epoch_idx,
-                                             latest_evaluated_epoch_idx))
+                raise ValueError('Missing evaluations: the latest trained '
+                                 'epoch index is {}, but the latest evaluated '
+                                 'epoch index is {}'
+                                 ''.format(latest_trained_epoch_idx,
+                                           latest_evaluated_epoch_idx))
             else:
-                # The latest trained epoch was evaluated.
+                # The latest trained epoch was evaluated: do nothing.
                 pass
 
+            # Resume the training where it was left.
             self._before_resuming_training()
 
-        # At this point we know every trained epoch (possibly none) was also evaluated.
+        # At this point every trained epoch (possibly none) has been evaluated.
 
         for epoch_idx in range(latest_trained_epoch_idx + 1, num_epochs):
             self._before_epoch(epoch_idx)
