@@ -38,19 +38,19 @@ class LoggingEngine(object):
                 self._session.graph.get_tensor_by_name(
                     naming.Names.ACCURACY_PLACEHOLDER + ':0')
 
-            avg_batch_loss_summary, \
-            accuracy_summary = \
+            avg_loss_summary, accuracy_summary = \
                 tf.get_collection(naming.Names.EVALUATION_SUMMARY_COLLECTION)
 
-            avg_batch_loss_summary_out = self._session.run(
-                avg_batch_loss_summary,
+            avg_loss_summary_out = self._session.run(
+                avg_loss_summary,
                 feed_dict={avg_batch_loss_placeholder: avg_loss})
             accuracy_summary_out = self._session.run(
                 accuracy_summary,
                 feed_dict={accuracy_placeholder: accuracy})
 
         cursor_latest_epoch = training_utils.end_of_epoch_cursor(epoch_idx)
-
-        self._summary_writer.add_summary(avg_batch_loss_summary_out, cursor_latest_epoch)
-        self._summary_writer.add_summary(accuracy_summary_out, cursor_latest_epoch)
+        self._summary_writer.add_summary(avg_loss_summary_out,
+                                         cursor_latest_epoch)
+        self._summary_writer.add_summary(accuracy_summary_out,
+                                         cursor_latest_epoch)
         self._summary_writer.flush()
