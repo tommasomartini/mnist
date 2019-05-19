@@ -20,7 +20,7 @@ class Constants(ro.ReadOnly):
     VALIDATION_SET_NAME = 'validation_set'
     TEST_SET_NAME = 'test_set'
 
-    TRAINING_CKPT_NAME = 'training_ckpt'
+    LATEST_TRAINED_CKPT_NAME = 'latest_trained_ckpt'
 
     MNIST_IMAGE_WIDTH = 28
     MNIST_IMAGE_HEIGTH = 28
@@ -31,6 +31,17 @@ class Constants(ro.ReadOnly):
     LABEL_DATA_TYPE = np.int32
 
     EPOCH_CURSOR_MULTIPLIER = 1e6
+
+    # Training status file.
+    TRAINING_STATUS_FILENAME = 'training_status'
+    TRAINING_STATUS_EXTENSION = 'json'
+    LATEST_TRAINED_KEY = 'latest_trained'
+    LATEST_EVALUATED_KEY = 'latest_evaluated'
+    BEST_KEY = 'best'
+    EPOCH_IDX_KEY = 'epoch_idx'
+    METRIC_KEY = 'mean_loss'
+    DEFAULT_EPOCH_IDX = -1
+    DEFAULT_METRIC_VALUE = np.inf
 
 
 class MetadataFields(ro.ReadOnly):
