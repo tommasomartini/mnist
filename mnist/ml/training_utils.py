@@ -3,7 +3,6 @@ import numpy as np
 import mnist.constants as constants
 from mnist.custom_utils.logger import std_logger as logger
 
-
 _CNST = constants.Constants
 
 

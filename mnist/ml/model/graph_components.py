@@ -51,7 +51,7 @@ def evaluation_outputs(logits, input_labels):
                                axis=1,
                                name=naming.Names.PREDICTION)
 
-        # How many predictions match the labels (in each batch).
+        # How many predictions match the labels (in this batch).
         is_prediction_correct = tf.equal(tf.cast(prediction, tf.int32),
                                          input_labels)
         num_correct_predictions = \
