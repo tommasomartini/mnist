@@ -151,7 +151,15 @@ class TestEndOfEpochCursor(unittest.TestCase):
         cursor = training_utils.end_of_epoch_cursor(epoch_idx=epoch_idx)
         self.assertEqual(cursor, expected_cursor)
 
-    def test_negative_epoch_index(self):
+    @mock.patch('mnist.ml.training_utils._CNST')
+    def test_before_first_epoch_success(self, cursor_multiplier_mock):
+        cursor_multiplier_mock.EPOCH_CURSOR_MULTIPLIER = 1000
         epoch_idx = -1
+        expected_cursor = 0
+        cursor = training_utils.end_of_epoch_cursor(epoch_idx=epoch_idx)
+        self.assertEqual(cursor, expected_cursor)
+
+    def test_invalid_epoch_index(self):
+        epoch_idx = -2
         with self.assertRaises(ValueError):
             training_utils.end_of_epoch_cursor(epoch_idx=epoch_idx)

@@ -113,17 +113,20 @@ def end_of_epoch_cursor(epoch_idx):
     """Returns the cursor relative to the latest trained epoch.
 
     Args:
-        epoch_idx (int): 0-based index of the latest trained epoch.
+        epoch_idx (int): 0-based index of the latest trained epoch. If -1,
+            it is interpreted as "right before the first epoch".
 
     Returns:
         The cursor relative to the latest trained epoch.
 
     Raises:
-        ValueError: Negative epoch index.
+        ValueError: Invalid epoch index.
     """
-    if epoch_idx < 0:
-        raise ValueError('Epoch index cannot be negative. '
-                         'Provided was: {}'.format(epoch_idx))
+    if epoch_idx == -1:
+        return 0
+
+    if epoch_idx < -1:
+        raise ValueError('Invalid epoch index: {}'.format(epoch_idx))
 
     cursor = int((epoch_idx + 1) * _CNST.EPOCH_CURSOR_MULTIPLIER)
     return cursor
