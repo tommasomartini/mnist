@@ -3,8 +3,8 @@ import os
 import tensorflow as tf
 
 import mnist.ml.model.naming as naming
-from mnist.ml.model.graphs import build_logging_graph
 import mnist.ml.training_utils as training_utils
+from mnist.ml.model.graphs import build_logging_graph
 
 
 class LoggingEngine(object):
@@ -28,7 +28,7 @@ class LoggingEngine(object):
 
     def log_evaluation_results(self,
                                epoch_idx,
-                               avg_batch_loss,
+                               avg_loss,
                                accuracy):
         with self._session.graph.as_default():
             avg_batch_loss_placeholder = \
@@ -44,7 +44,7 @@ class LoggingEngine(object):
 
             avg_batch_loss_summary_out = self._session.run(
                 avg_batch_loss_summary,
-                feed_dict={avg_batch_loss_placeholder: avg_batch_loss})
+                feed_dict={avg_batch_loss_placeholder: avg_loss})
             accuracy_summary_out = self._session.run(
                 accuracy_summary,
                 feed_dict={accuracy_placeholder: accuracy})
