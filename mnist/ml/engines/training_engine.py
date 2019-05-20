@@ -53,21 +53,21 @@ class TrainingEngine:
     def initialize(self):
         """Performs all the operations needed to initialize
         the training session."""
-        # Fetch and run the initialization operations.
         with self._session.graph.as_default():
             init_op = tf.global_variables_initializer()
-            dataset_init_op = self._session.graph.get_operation_by_name(
-                naming.Names.DATASET_INIT_OP)
         self._session.run(init_op)
-        self._session.run(dataset_init_op)
 
     def train_epoch(self):
         """Performs the training of one epoch of the training set."""
+        dataset_init_op = self._session.graph.get_operation_by_name(
+                naming.Names.DATASET_INIT_OP)
         train_op = self._session.graph.get_operation_by_name(
             naming.Names.TRAINING_OPERATION)
         train_loss = self._session.graph.get_collection(tf.GraphKeys.LOSSES)[0]
         loss_summary = self._session.graph.get_collection(
             naming.Names.TRAINING_SUMMARY_COLLECTION)[0]
+
+        self._session.run(dataset_init_op)
 
         for batch_idx in count():
             if batch_idx >= self.batches_per_epoch:

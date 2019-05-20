@@ -170,15 +170,13 @@ class ExperimentScheduler:
         pass
 
     def _after_epoch(self, epoch_idx):
-        # Save the checkpoint on disk.
-        self._training_engine.save()
-
-        # Update the training status.
-        self._training_status[_CNST.LATEST_TRAINED_KEY] = epoch_idx
-        self._save_training_status()
-
         # Evaluate on the validation set.
         avg_loss, accuracy = self._run_validation(epoch_idx)
+        # Log the evaluation results.
+        self._logging_engine.log_evaluation_results(epoch_idx=epoch_idx,
+                                                    avg_loss=avg_loss,
+                                                    accuracy=accuracy)
+
         log_msg = 'After {} training epochs: ' \
                   'loss={:.3f}, ' \
                   'accuracy={:.3f}'.format(epoch_idx + 1,
@@ -206,6 +204,13 @@ class ExperimentScheduler:
                 batches_per_epoch=self._training_engine.batches_per_epoch)
             self._logging_engine.log_summary(summary=loss_summary,
                                              epoch_cursor=cursor)
+
+        # Save the checkpoint on disk.
+        self._training_engine.save()
+
+        # Update the training status.
+        self._training_status[_CNST.LATEST_TRAINED_KEY] = epoch_idx
+        self._save_training_status()
 
     ############################################################################
     # Public interface #########################################################

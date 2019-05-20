@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 from itertools import count
@@ -52,12 +53,13 @@ class ValidationEngine:
 
     def evaluate_latest_trained_model(self):
         """Evaluates the latest trained model on the validation set."""
-        latest_ckpt_path = paths.Checkpoints.LATEST_TRAINED
-        if not os.path.exists(latest_ckpt_path):
-            raise IOError('No checkpoint at {}'.format(latest_ckpt_path))
+        latest_ckpt_prefix = paths.Checkpoints.LATEST_TRAINED
+        latest_ckpt_pattern = latest_ckpt_prefix + '.*'
+        if not glob.glob(latest_ckpt_pattern):
+            raise IOError('No checkpoint at {}'.format(latest_ckpt_prefix))
 
         # Load the latest trained weights.
-        self._saver.restore(self._session, latest_ckpt_path)
+        self._saver.restore(self._session, latest_ckpt_prefix)
 
         # Fetch the output nodes.
         loss = self._session.graph.get_tensor_by_name(
