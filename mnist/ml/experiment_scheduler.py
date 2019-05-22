@@ -183,8 +183,8 @@ class ExperimentScheduler:
             self._update_training_status(epoch_idx=epoch_idx,
                                          validation_loss=avg_loss)
         if is_new_best_epoch:
-            # TODO: save new best checkpoint!
             log_msg += ' [new best model]'
+            self._validation_engine.save()
         logger.info(log_msg)
 
     def _run_epoch(self, epoch_idx):

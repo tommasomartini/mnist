@@ -32,12 +32,14 @@ class MetaGraphs(ro.ReadOnly):
                             constants.MetagraphFilenames.TRAINING)
     VALIDATION = os.path.join(_log_dir,
                               constants.MetagraphFilenames.VALIDATION)
+    EVALUATION = os.path.join(_log_dir,
+                              constants.MetagraphFilenames.EVALUATION)
 
 
 class Checkpoints(ro.ReadOnly):
     """Stores the paths to the checkpoints generated during an experiment."""
-    LATEST_TRAINED = os.path.join(_log_dir,
-                                  _CNST.LATEST_TRAINED_CKPT_NAME)
+    LATEST_TRAINED = os.path.join(_log_dir, _CNST.LATEST_TRAINED_CKPT_NAME)
+    BEST_MODEL = os.path.join(_log_dir, _CNST.BEST_MODEL_CKPT_NAME)
 
 
 class TrainingStatus(ro.ReadOnly):

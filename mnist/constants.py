@@ -21,6 +21,7 @@ class Constants(ro.ReadOnly):
     TEST_SET_NAME = 'test_set'
 
     LATEST_TRAINED_CKPT_NAME = 'latest_trained_ckpt'
+    BEST_MODEL_CKPT_NAME = 'best_model_ckpt'
 
     MNIST_IMAGE_WIDTH = 28
     MNIST_IMAGE_HEIGTH = 28
@@ -65,3 +66,5 @@ class MetagraphFilenames(ro.ReadOnly):
         ('training_metagraph', Constants.METAGRAPH_EXTENSION))
     VALIDATION = os.path.extsep.join(
         ('validation_metagraph', Constants.METAGRAPH_EXTENSION))
+    EVALUATION = os.path.extsep.join(
+        ('evaluation_metagraph', Constants.METAGRAPH_EXTENSION))

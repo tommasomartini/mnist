@@ -45,11 +45,21 @@ class ValidationEngine:
         self._session = tf.Session(graph=validation_graph)
 
         with validation_graph.as_default():
-            self._saver = tf.train.Saver()
+            self._saver = tf.train.Saver(max_to_keep=1)
 
     def shut_down(self):
         """Shuts down the tf.Session associated with the validation."""
         self._session.close()
+
+    def save(self):
+        """Saves on disk the checkpoint of the current session status.
+
+        Only the trained weights are stored, not the MetaGraph defining the
+        network architecture. The MetaGraph is stored in a separate file.
+        """
+        self._saver.save(self._session,
+                         paths.Checkpoints.BEST_MODEL,
+                         write_meta_graph=False)
 
     def evaluate_latest_trained_model(self):
         """Evaluates the latest trained model on the validation set."""
