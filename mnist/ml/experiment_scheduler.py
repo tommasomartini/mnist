@@ -159,9 +159,6 @@ class ExperimentScheduler:
         self._update_training_status(epoch_idx=epoch_idx,
                                      validation_loss=avg_loss)
 
-    def _before_resuming_training(self):
-        self._training_engine.resume()
-
     def _after_training(self):
         # TODO: evaluate on the test set.
         pass
@@ -243,7 +240,7 @@ class ExperimentScheduler:
                 pass
 
             # Resume the training where it was left.
-            self._before_resuming_training()
+            self._training_engine.resume()
 
         # At this point every trained epoch (possibly none) has been evaluated.
 
