@@ -77,7 +77,7 @@ class ValidationEngine:
             self._session.run(dataset_init_op)
 
             for batch_idx in count():
-                if batch_idx >= self.batches_per_epoch:
+                if batch_idx > self.batches_per_epoch:
                     logger.warning('Batch index is {} but an epoch should '
                                    'only contain '
                                    '{} batches'.format(batch_idx,
