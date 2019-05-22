@@ -1,9 +1,10 @@
 import logging
+import os
 
+import tensorflow as tf
 from python_log_indenter import IndentedLoggerAdapter
 
 import mnist.config as config
-import mnist.constants as constants
 
 # General logger.
 _LOGGING_LEVEL = config.GeneralConfig.LOGGING_LEVEL
@@ -27,3 +28,19 @@ _std_logger = logging.getLogger()
 _std_logger.handlers = [_std_stream_handler]
 _std_logger.setLevel(_LOGGING_LEVEL)
 std_logger = IndentedLoggerAdapter(_std_logger)
+
+# Turn off the TensorFlow logging.
+#   0 = all messages are logged (default behavior)
+#   1 = INFO messages are not printed
+#   2 = INFO and WARNING messages are not printed
+#   3 = INFO, WARNING, and ERROR messages are not printed
+# See: https://stackoverflow.com/a/42121886
+TensorFlowLoggingLevels = {
+    logging.INFO: '0',
+    logging.WARNING: '1',
+    logging.ERROR: '2',
+    'silent': '3',
+}
+_tf_log_level = TensorFlowLoggingLevels['silent']
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = _tf_log_level
+tf.logging.set_verbosity(tf.logging.WARN)
