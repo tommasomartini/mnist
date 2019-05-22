@@ -59,7 +59,7 @@ class ValidationEngine:
         """
         self._saver.save(self._session,
                          paths.Checkpoints.BEST_MODEL,
-                         write_meta_graph=True)
+                         write_meta_graph=False)
 
     def evaluate_latest_trained_model(self):
         """Evaluates the latest trained model on the validation set."""
