@@ -78,6 +78,7 @@ class ExperimentScheduler:
     def _shut_down_engines(self):
         self._training_engine.shut_down()
         self._validation_engine.shut_down()
+        self._evaluation_engine.shut_down()
         self._logging_engine.shut_down()
 
     def _save_training_status(self):
