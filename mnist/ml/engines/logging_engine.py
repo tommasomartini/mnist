@@ -31,9 +31,9 @@ class LoggingEngine(object):
                                avg_loss,
                                accuracy):
         with self._session.graph.as_default():
-            avg_batch_loss_placeholder = \
+            avg_loss_placeholder = \
                 self._session.graph.get_tensor_by_name(
-                    naming.Names.AVG_BATCH_LOSS_PLACEHOLDER + ':0')
+                    naming.Names.AVG_LOSS_PLACEHOLDER + ':0')
             accuracy_placeholder = \
                 self._session.graph.get_tensor_by_name(
                     naming.Names.ACCURACY_PLACEHOLDER + ':0')
@@ -43,7 +43,7 @@ class LoggingEngine(object):
 
             avg_loss_summary_out = self._session.run(
                 avg_loss_summary,
-                feed_dict={avg_batch_loss_placeholder: avg_loss})
+                feed_dict={avg_loss_placeholder: avg_loss})
             accuracy_summary_out = self._session.run(
                 accuracy_summary,
                 feed_dict={accuracy_placeholder: accuracy})

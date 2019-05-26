@@ -110,10 +110,10 @@ def build_logging_graph():
     graph = tf.Graph()
     with graph.as_default():
         # Placeholders.
-        avg_batch_loss_placeholder = tf.placeholder(
+        avg_loss_placeholder = tf.placeholder(
             tf.float32,
             shape=(),
-            name=naming.Names.AVG_BATCH_LOSS_PLACEHOLDER)
+            name=naming.Names.AVG_LOSS_PLACEHOLDER)
         accuracy_placeholder = tf.placeholder(
             tf.float32,
             shape=(),
@@ -121,8 +121,8 @@ def build_logging_graph():
 
         # Summaries.
         tf.summary.scalar(
-            naming.Names.AVG_BATCH_LOSS_SUMMARY,
-            avg_batch_loss_placeholder,
+            naming.Names.AVG_LOSS_SUMMARY,
+            avg_loss_placeholder,
             collections=[naming.Names.EVALUATION_SUMMARY_COLLECTION])
 
         tf.summary.scalar(

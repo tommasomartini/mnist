@@ -11,7 +11,7 @@ class Names(ro.ReadOnly):
     # IMAGES_PLACEHOLDER = 'images_placeholder'
 
     # Logging graph
-    AVG_BATCH_LOSS_PLACEHOLDER = 'avg_batch_loss_placeholder'
+    AVG_LOSS_PLACEHOLDER = 'avg_loss_placeholder'
     ACCURACY_PLACEHOLDER = 'accuracy_placeholder'
 
     ###############################################################################################
@@ -60,5 +60,5 @@ class Names(ro.ReadOnly):
     EVALUATION_SUMMARY_COLLECTION = 'evaluation_summaries'
 
     # Logging graph
-    AVG_BATCH_LOSS_SUMMARY = 'avg_batch_loss'
+    AVG_LOSS_SUMMARY = 'avg_loss'
     ACCURACY_SUMMARY = 'accuracy'
