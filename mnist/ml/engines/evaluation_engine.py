@@ -5,6 +5,7 @@ from itertools import count
 import tensorflow as tf
 
 import mnist.config as config
+import mnist.data.tensorflow_dataset as tf_ds
 import mnist.ml.model.graphs as graphs
 import mnist.ml.model.naming as naming
 import mnist.ml.training_utils as utils
@@ -53,6 +54,10 @@ class EvaluationEngine:
         # Load the best trained weights.
         self._saver.restore(self._session, best_ckpt_prefix)
 
+        # Fetch the input nodes.
+        handle_ph = \
+            self._session.graph.get_tensor_by_name(naming.Names.ITERATOR_HANDLE + ':0')
+
         # Fetch the output nodes.
         loss = self._session.graph.get_tensor_by_name(
             naming.Names.EVALUATION_LOSS + ':0')
@@ -63,10 +68,11 @@ class EvaluationEngine:
             naming.Names.OUTPUT_COLLECTION)
 
         with self._session.graph.as_default():
-            # Initialize the validation set.
-            dataset_init_op = self._session.graph.get_operation_by_name(
-                naming.Names.DATASET_INIT_OP)
-            self._session.run(dataset_init_op)
+            # Load the dataset and get the handle.
+            # The dataset must be built "within" the current graph to be used.
+            dataset = tf_ds.evaluation_set_from_dataset_definition(dataset_def)
+            iterator = dataset.make_one_shot_iterator()
+            handle = self._session.run(iterator.string_handle())
 
             for batch_idx in count():
                 if batch_idx > batches_per_epoch:
@@ -81,7 +87,8 @@ class EvaluationEngine:
                         loss,
                         num_correct_predictions,
                         batch_size,
-                    ])
+                    ],
+                        feed_dict={handle_ph: handle})
                 except tf.errors.OutOfRangeError:
                     break
 

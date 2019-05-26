@@ -102,6 +102,37 @@ class ExperimentScheduler:
         self._save_training_status()
         return is_new_best_epoch
 
+    def _evaluation_accumulator(self, batches):
+        """Runs the input batch generator and accumulates the evaluation
+        results.
+
+        In this implementation, the `batches` iterable must yield tuples like:
+            (
+                <0-based index of the batch>,
+                <batch loss>,
+                <number of true positives the batch>,
+                <size of the batch>,
+            ).
+
+        Args:
+            batches: An iterable of compatible tuples.
+
+        Returns:
+            A tuple (<average loss>, <accuracy>).
+        """
+        true_positives = 0
+        tot_batch_loss = 0
+        num_samples = 0
+        for batch_idx, batch_loss, batch_tp, batch_size in batches:
+            tot_batch_loss += batch_loss
+            true_positives += batch_tp
+            num_samples += batch_size
+
+        avg_loss = tot_batch_loss / num_samples
+        accuracy = true_positives / num_samples
+
+        return avg_loss, accuracy
+
     def _run_validation(self, epoch_idx):
         """Evaluates the latest trained model on the validation set.
 
@@ -117,18 +148,38 @@ class ExperimentScheduler:
             desc=pbar_desc,
             total=self._validation_engine.batches_per_epoch,
             leave=False)
+        avg_loss, accuracy = self._evaluation_accumulator(pbar)
+        return avg_loss, accuracy
 
-        true_positives = 0
-        tot_batch_loss = 0
-        num_samples = 0
-        for batch_idx, batch_loss, batch_tp, batch_size in pbar:
-            tot_batch_loss += batch_loss
-            true_positives += batch_tp
-            num_samples += batch_size
+    def _run_evaluation(self, testset_def_path, testset_name=None):
+        """Evaluates the best trained model on a test set.
 
-        avg_loss = tot_batch_loss / num_samples
-        accuracy = true_positives / num_samples
+        Args:
+            testset_def_path (str): Path to the dataset definition.
+            testset_name (str, optional): Identifier associated to the current
+                dataset. Defaults to None.
 
+        Returns:
+            A tuple (<average loss>, <accuracy>).
+        """
+        with open(testset_def_path, 'r') as f:
+            testset_def = json.load(f)
+
+        num_batches = utils.batches_per_epoch(
+            dataset_size=len(testset_def),
+            batch_size=config.TrainingConfig.BATCH_SIZE_TEST,
+            drop_last=False)
+
+        desc = 'Evaluating'
+        if testset_name:
+            desc += ' on {}'.format(testset_name)
+        pbar = tqdm(
+            self._evaluation_engine.evaluate_best_model_on_dataset(testset_def),
+            desc=desc,
+            total=num_batches,
+            leave=False)
+
+        avg_loss, accuracy = self._evaluation_accumulator(pbar)
         return avg_loss, accuracy
 
     ############################################################################
@@ -156,8 +207,15 @@ class ExperimentScheduler:
                                      validation_loss=avg_loss)
 
     def _after_training(self):
-        # TODO: evaluate on the test set.
-        pass
+        for testset_name, testset_def_path \
+                in paths.DatasetDefinitions.TEST.items():
+            avg_loss, accuracy = self._run_evaluation(testset_def_path,
+                                                      testset_name)
+            logger.info('Evaluated on: {}\n' \
+                        '  loss: {:.3f}\n' \
+                        '  accuracy: {:.3f}'.format(testset_name,
+                                                    avg_loss,
+                                                    accuracy))
 
     def _before_epoch(self, epoch_idx):
         pass
