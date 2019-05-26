@@ -1,4 +1,5 @@
 import tensorflow as tf
+import tensorflow.keras.layers as klayers
 
 import mnist.custom_utils.readonly as ro
 
@@ -13,33 +14,27 @@ class Names(ro.ReadOnly):
 
 
 def easynet(input_images, training_flag):
-    conv1 = tf.layers.conv2d(inputs=input_images,
-                             filters=32,
-                             kernel_size=[5, 5],
-                             padding='same',
-                             activation=tf.nn.relu,
-                             name=Names.CONV1)
-    bn1 = tf.layers.batch_normalization(conv1,
-                                        axis=1,
-                                        training=training_flag,
-                                        name=Names.BN1)
-    pool1 = tf.layers.max_pooling2d(inputs=bn1,
-                                    pool_size=[2, 2],
-                                    strides=2,
-                                    name=Names.POOL1)
-    conv2 = tf.layers.conv2d(inputs=pool1,
-                             filters=64,
-                             kernel_size=[5, 5],
-                             padding='same',
-                             activation=tf.nn.relu,
-                             name=Names.CONV2)
-    bn2 = tf.layers.batch_normalization(conv2,
-                                        axis=1,
-                                        training=training_flag,
-                                        name=Names.BN2)
-    pool2 = tf.layers.max_pooling2d(inputs=bn2,
-                                    pool_size=[2, 2],
-                                    strides=2,
-                                    name=Names.POOL2)
+    conv1 = klayers.Conv2D(filters=32,
+                           kernel_size=[5, 5],
+                           padding='same',
+                           activation=tf.nn.relu,
+                           name=Names.CONV1)(input_images)
+    bn1 = klayers.BatchNormalization(axis=-1,
+                                     name=Names.BN1)(conv1,
+                                                     training=training_flag)
+    pool1 = klayers.MaxPool2D(pool_size=[2, 2],
+                              strides=2,
+                              name=Names.POOL1)(bn1)
+    conv2 = klayers.Conv2D(filters=32,
+                           kernel_size=[5, 5],
+                           padding='same',
+                           activation=tf.nn.relu,
+                           name=Names.CONV2)(pool1)
+    bn2 = klayers.BatchNormalization(axis=-1,
+                                     name=Names.BN2)(conv2,
+                                                     training=training_flag)
+    pool2 = klayers.MaxPool2D(pool_size=[2, 2],
+                              strides=2,
+                              name=Names.POOL2)(bn2)
     feature_map = pool2
     return feature_map
