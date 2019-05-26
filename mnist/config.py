@@ -3,6 +3,8 @@ This module contains all the settings and configurations.
 """
 import logging
 
+import numpy as np
+
 import mnist.constants as constants
 import mnist.custom_utils.readonly as ro
 
@@ -37,3 +39,15 @@ class TrainingConfig(ro.ReadOnly):
     BATCH_SIZE_TEST = BATCH_SIZE_TRAINING
     LEARNING_RATE = 1e-3
     DROP_LAST_INCOMPLETE_BATCH = True
+
+    INPUT_SHAPES = (
+        (None,
+         constants.Constants.MNIST_IMAGE_HEIGTH,
+         constants.Constants.MNIST_IMAGE_WIDTH,
+         constants.Constants.MNIST_IMAGE_CHANNELS),
+        (None,),
+    )
+    INPUT_TYPES = (
+        np.float32,
+        np.int32,
+    )
