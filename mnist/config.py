@@ -41,13 +41,15 @@ class TrainingConfig(ro.ReadOnly):
     DROP_LAST_INCOMPLETE_BATCH = True
 
     INPUT_SHAPES = (
+        # Images.
         (None,
          constants.Constants.MNIST_IMAGE_HEIGTH,
          constants.Constants.MNIST_IMAGE_WIDTH,
          constants.Constants.MNIST_IMAGE_CHANNELS),
+        # Labels.
         (None,),
     )
     INPUT_TYPES = (
-        np.float32,
-        np.int32,
+        np.float32,     # images
+        np.int32,       # labels
     )

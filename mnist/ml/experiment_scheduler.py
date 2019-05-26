@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 import mnist.config as config
 import mnist.constants as constants
+import mnist.ml.engines.evaluation_engine as ev_eng
 import mnist.ml.engines.logging_engine as log_eng
 import mnist.ml.engines.training_engine as tr_eng
 import mnist.ml.engines.validation_engine as val_eng
@@ -54,8 +55,6 @@ def _load_or_create_training_status(training_status_path):
 class ExperimentScheduler:
 
     def __init__(self, log_dir):
-        logger.info('Setting up scheduler')
-
         if not os.path.isdir(log_dir):
             raise IOError('Invalid log folder: {}'.format(log_dir))
         self._log_dir = log_dir
@@ -64,16 +63,13 @@ class ExperimentScheduler:
         self._training_status_path = paths.TrainingStatus.PATH
         self._training_status = \
             _load_or_create_training_status(self._training_status_path)
-        logger.info('  training status file: OK')
 
         # Create the engines. In this phase all the MetaGraphs are also stored
         # on disk for later re-use.
         self._training_engine = tr_eng.TrainingEngine()
         self._validation_engine = val_eng.ValidationEngine()
+        self._evaluation_engine = ev_eng.EvaluationEngine()
         self._logging_engine = log_eng.LoggingEngine(self._log_dir)
-        logger.info('  engines: OK')
-
-        logger.info('Scheduler successfully set up')
 
     ############################################################################
     # Private methods ##########################################################

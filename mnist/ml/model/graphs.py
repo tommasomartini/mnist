@@ -72,6 +72,39 @@ def build_validation_graph(validation_set_def):
     return graph
 
 
+def build_evaluation_graph():
+    input_types = config.TrainingConfig.INPUT_TYPES
+    input_shapes = config.TrainingConfig.INPUT_SHAPES
+
+    graph = tf.Graph()
+    with graph.as_default():
+        handle = tf.placeholder(tf.string,
+                                shape=[],
+                                name=naming.Names.ITERATOR_HANDLE)
+        iterator = tf.data.Iterator.from_string_handle(handle,
+                                                       input_types,
+                                                       input_shapes)
+        input_images, input_labels = iterator.get_next()
+
+        with tf.name_scope(naming.Names.CONVOLUTIONAL_BACKBONE_SCOPE):
+            image_feature_map = easynet.easynet(input_images=input_images,
+                                                training_flag=False)
+
+        with tf.name_scope(naming.Names.FEATURE_PROCESSING_SCOPE):
+            feature_vector = gc.feature_processing(image_feature_map,
+                                                   training_flag=False)
+            logits = gc.logits_from_feature_vector(feature_vector)
+
+        with tf.name_scope(naming.Names.LOSS_SCOPE):
+            loss = tf.losses.sparse_softmax_cross_entropy(labels=input_labels,
+                                                          logits=logits)
+        tf.identity(loss, naming.Names.EVALUATION_LOSS)
+
+        gc.evaluation_outputs(logits, input_labels)
+
+    return graph
+
+
 def build_logging_graph():
     """Utility graph used only to log."""
     graph = tf.Graph()
@@ -98,33 +131,6 @@ def build_logging_graph():
             collections=[naming.Names.EVALUATION_SUMMARY_COLLECTION])
 
     return graph
-
-
-# def build_evaluation_graph():
-#     data_format = GeneralConfig.DATA_FORMAT
-#
-#     graph = tf.Graph()
-#     with graph.as_default():
-#         input_images, input_labels = input_pipeline(data_format)
-#
-#         with tf.name_scope(Names.CONVOLUTIONAL_BACKBONE_SCOPE):
-#             image_feature_map = easynet(input_images=input_images,
-#                                         training_flag=False,
-#                                         data_format=data_format)
-#         with tf.name_scope(Names.FEATURE_PROCESSING_SCOPE):
-#             feature_vector = common_feature_processing(image_feature_map, training_flag=False)
-#             with tf.variable_scope(Names.CALIBRATION_ONLY_SCOPE):
-#                 calibration_only_feature_vector = calibration_only_layers(feature_vector,
-#                                                                           training_flag=False)
-#             logits = logits_from_feature_vector(calibration_only_feature_vector)
-#
-#         with tf.name_scope(Names.LOSS_SCOPE):
-#             loss = tf.losses.sparse_softmax_cross_entropy(labels=input_labels, logits=logits)
-#         tf.identity(loss, Names.EVALUATION_LOSS)
-#
-#         append_evaluation_outputs(logits, input_labels)
-#
-#     return graph
 
 
 # def build_inference_graph():

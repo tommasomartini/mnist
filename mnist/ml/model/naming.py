@@ -2,9 +2,9 @@ import mnist.custom_utils.readonly as ro
 
 
 class Names(ro.ReadOnly):
-    # ###############################################################################################
-    # # Network input
-    # ITERATOR_HANDLE = 'iterator_handle'
+    ###############################################################################################
+    # Network input
+    ITERATOR_HANDLE = 'iterator_handle'
 
     ###############################################################################################
     # Placeholders
