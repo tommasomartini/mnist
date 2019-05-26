@@ -46,15 +46,29 @@ def training_set_from_dataset_definition(dataset_definition):
     return dataset
 
 
-def validation_set_from_dataset_definition(dataset_definition):
+def _evaluation_set_from_dataset_definition(dataset_definition, batch_size):
     all_image_paths, all_sample_labels = \
         _images_and_labels_from_dataset_definition(dataset_definition)
     dataset = tf.data.Dataset.from_tensor_slices(
         (all_image_paths, all_sample_labels)) \
         .map(preproc.load_and_preprocess_sample,
              num_parallel_calls=AUTOTUNE) \
-        .batch(config.TrainingConfig.BATCH_SIZE_VALIDATION,
+        .batch(batch_size,
                drop_remainder=False) \
         .prefetch(buffer_size=AUTOTUNE)
 
+    return dataset
+
+
+def validation_set_from_dataset_definition(dataset_definition):
+    batch_size = config.TrainingConfig.BATCH_SIZE_VALIDATION
+    dataset = _evaluation_set_from_dataset_definition(dataset_definition,
+                                                      batch_size)
+    return dataset
+
+
+def evaluation_set_from_dataset_definition(dataset_definition):
+    batch_size = config.TrainingConfig.BATCH_SIZE_TEST
+    dataset = _evaluation_set_from_dataset_definition(dataset_definition,
+                                                      batch_size)
     return dataset
