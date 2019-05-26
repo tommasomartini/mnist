@@ -27,7 +27,7 @@ class GeneralConfig(ro.ReadOnly):
     DATA_SPLIT_WEIGHTS = {
         constants.Constants.TRAINING_SET_NAME: 0.5,
         constants.Constants.VALIDATION_SET_NAME: 0.25,
-        constants.Constants.TEST_SET_NAME: 0.25,
+        constants.Constants.TEST_SET_NAMES[0]: 0.25,
     }
 
 

@@ -18,7 +18,7 @@ class Constants(ro.ReadOnly):
 
     TRAINING_SET_NAME = 'training_set'
     VALIDATION_SET_NAME = 'validation_set'
-    TEST_SET_NAME = 'test_set'
+    TEST_SET_NAMES = ['test_set']   # could be more than one
 
     LATEST_TRAINED_CKPT_NAME = 'latest_trained_ckpt'
     BEST_MODEL_CKPT_NAME = 'best_model_ckpt'
@@ -56,9 +56,10 @@ DatasetFilenames = {
         (Constants.TRAINING_SET_NAME, Constants.METADATA_EXTENSION)),
     Constants.VALIDATION_SET_NAME: os.path.extsep.join(
         (Constants.VALIDATION_SET_NAME, Constants.METADATA_EXTENSION)),
-    Constants.TEST_SET_NAME: os.path.extsep.join(
-        (Constants.TEST_SET_NAME, Constants.METADATA_EXTENSION)),
 }
+for test_set_name in Constants.TEST_SET_NAMES:
+    DatasetFilenames[test_set_name] = os.path.extsep.join(
+        (test_set_name, Constants.METADATA_EXTENSION))
 
 
 class MetagraphFilenames(ro.ReadOnly):

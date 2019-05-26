@@ -19,10 +19,13 @@ class DatasetDefinitions(ro.ReadOnly):
         _dataset_def_dir,
         constants.DatasetFilenames[_CNST.VALIDATION_SET_NAME]
     )
-    TEST = os.path.join(
-        _dataset_def_dir,
-        constants.DatasetFilenames[_CNST.TEST_SET_NAME]
-    )
+    TEST = {
+        test_set_name: os.path.join(
+            _dataset_def_dir,
+            constants.DatasetFilenames[test_set_name])
+        for test_set_name
+        in _CNST.TEST_SET_NAMES
+    }
 
 
 class MetaGraphs(ro.ReadOnly):
