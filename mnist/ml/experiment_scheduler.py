@@ -52,6 +52,38 @@ def _load_or_create_training_status(training_status_path):
     return training_status
 
 
+def _evaluation_accumulator(batches):
+    """Runs the input batch generator and accumulates the evaluation
+    results.
+
+    In this implementation, the `batches` iterable must yield tuples like:
+        (
+            <0-based index of the batch>,
+            <batch loss>,
+            <number of true positives the batch>,
+            <size of the batch>,
+        ).
+
+    Args:
+        batches: An iterable of compatible tuples.
+
+    Returns:
+        A tuple (<average loss>, <accuracy>).
+    """
+    true_positives = 0
+    tot_batch_loss = 0
+    num_samples = 0
+    for batch_idx, batch_loss, batch_tp, batch_size in batches:
+        tot_batch_loss += batch_loss
+        true_positives += batch_tp
+        num_samples += batch_size
+
+    avg_loss = tot_batch_loss / num_samples
+    accuracy = true_positives / num_samples
+
+    return avg_loss, accuracy
+
+
 class ExperimentScheduler:
 
     def __init__(self, log_dir):
@@ -103,37 +135,6 @@ class ExperimentScheduler:
         self._save_training_status()
         return is_new_best_epoch
 
-    def _evaluation_accumulator(self, batches):
-        """Runs the input batch generator and accumulates the evaluation
-        results.
-
-        In this implementation, the `batches` iterable must yield tuples like:
-            (
-                <0-based index of the batch>,
-                <batch loss>,
-                <number of true positives the batch>,
-                <size of the batch>,
-            ).
-
-        Args:
-            batches: An iterable of compatible tuples.
-
-        Returns:
-            A tuple (<average loss>, <accuracy>).
-        """
-        true_positives = 0
-        tot_batch_loss = 0
-        num_samples = 0
-        for batch_idx, batch_loss, batch_tp, batch_size in batches:
-            tot_batch_loss += batch_loss
-            true_positives += batch_tp
-            num_samples += batch_size
-
-        avg_loss = tot_batch_loss / num_samples
-        accuracy = true_positives / num_samples
-
-        return avg_loss, accuracy
-
     def _run_validation(self, epoch_idx):
         """Evaluates the latest trained model on the validation set.
 
@@ -149,7 +150,7 @@ class ExperimentScheduler:
             desc=pbar_desc,
             total=self._validation_engine.batches_per_epoch,
             leave=False)
-        avg_loss, accuracy = self._evaluation_accumulator(pbar)
+        avg_loss, accuracy = _evaluation_accumulator(pbar)
         return avg_loss, accuracy
 
     def _run_evaluation(self, testset_def_path, testset_name=None):
@@ -180,7 +181,7 @@ class ExperimentScheduler:
             total=num_batches,
             leave=False)
 
-        avg_loss, accuracy = self._evaluation_accumulator(pbar)
+        avg_loss, accuracy = _evaluation_accumulator(pbar)
         return avg_loss, accuracy
 
     ############################################################################
@@ -212,8 +213,8 @@ class ExperimentScheduler:
                 in paths.DatasetDefinitions.TEST.items():
             avg_loss, accuracy = self._run_evaluation(testset_def_path,
                                                       testset_name)
-            logger.info('Evaluated on: {}\n' \
-                        '  loss: {:.3f}\n' \
+            logger.info('Evaluated on: {}\n'
+                        '  loss: {:.3f}\n'
                         '  accuracy: {:.3f}'.format(testset_name,
                                                     avg_loss,
                                                     accuracy))
