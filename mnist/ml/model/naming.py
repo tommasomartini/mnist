@@ -2,23 +2,23 @@ import mnist.custom_utils.readonly as ro
 
 
 class Names(ro.ReadOnly):
-    ###############################################################################################
+    ############################################################################
     # Network input
     ITERATOR_HANDLE = 'iterator_handle'
 
-    ###############################################################################################
+    ############################################################################
     # Placeholders
-    # IMAGES_PLACEHOLDER = 'images_placeholder'
+    IMAGES_PLACEHOLDER = 'images_placeholder'
 
     # Logging graph
     AVG_LOSS_PLACEHOLDER = 'avg_loss_placeholder'
     ACCURACY_PLACEHOLDER = 'accuracy_placeholder'
 
-    ###############################################################################################
+    ############################################################################
     # Convolutional backbone
     CONVOLUTIONAL_BACKBONE_SCOPE = 'convolutional_backbone'
 
-    ###############################################################################################
+    ############################################################################
     # Feature processing
     FEATURE_PROCESSING_SCOPE = 'feature_processing'
 
@@ -30,26 +30,27 @@ class Names(ro.ReadOnly):
 
     LOGITS = 'logits'
 
-    ###############################################################################################
+    ############################################################################
     # Loss
     LOSS_SCOPE = 'loss'
     EVALUATION_LOSS = 'evaluation_loss'
 
-    ###############################################################################################
+    ############################################################################
     # Outputs
     OUTPUT_SCOPE = 'output'
     OUTPUT_COLLECTION = 'output'
+    INFERENCE_OUTPUT_COLLECTION = 'inference_output'
     PROBABILITIES = 'probabilities'
     PREDICTION = 'prediction'
     NUM_CORRECT_PREDICTIONS = 'num_correct_predictions'
     BATCH_SIZE = 'batch_size'
 
-    ###############################################################################################
+    ############################################################################
     # Operations
     TRAINING_OPERATION = 'train_op'
     DATASET_INIT_OP = 'dataset_init_op'
 
-    ###############################################################################################
+    ############################################################################
     # Summaries
 
     # Training

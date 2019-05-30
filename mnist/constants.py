@@ -69,3 +69,5 @@ class MetagraphFilenames(ro.ReadOnly):
         ('validation_metagraph', Constants.METAGRAPH_EXTENSION))
     EVALUATION = os.path.extsep.join(
         ('evaluation_metagraph', Constants.METAGRAPH_EXTENSION))
+    INFERENCE = os.path.extsep.join(
+        ('inference_metagraph', Constants.METAGRAPH_EXTENSION))

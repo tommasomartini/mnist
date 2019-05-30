@@ -37,6 +37,8 @@ class MetaGraphs(ro.ReadOnly):
                               constants.MetagraphFilenames.VALIDATION)
     EVALUATION = os.path.join(_log_dir,
                               constants.MetagraphFilenames.EVALUATION)
+    INFERENCE = os.path.join(_log_dir,
+                             constants.MetagraphFilenames.INFERENCE)
 
 
 class Checkpoints(ro.ReadOnly):

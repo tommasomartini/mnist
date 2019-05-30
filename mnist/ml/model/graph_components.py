@@ -70,3 +70,20 @@ def evaluation_outputs(logits, input_labels):
     tf.add_to_collection(naming.Names.OUTPUT_COLLECTION,
                          num_correct_predictions)
     tf.add_to_collection(naming.Names.OUTPUT_COLLECTION, batch_size)
+
+
+def inference_outputs(logits):
+    with tf.name_scope(naming.Names.OUTPUT_SCOPE):
+        # Probabilities over the classes.
+        probabilities = \
+            klayers.Softmax(name=naming.Names.PROBABILITIES)(logits)
+
+        # The chosen class.
+        prediction = tf.argmax(input=logits,
+                               axis=1,
+                               name=naming.Names.PREDICTION)
+
+    tf.add_to_collection(naming.Names.INFERENCE_OUTPUT_COLLECTION,
+                         prediction)
+    tf.add_to_collection(naming.Names.INFERENCE_OUTPUT_COLLECTION,
+                         probabilities)

@@ -6,6 +6,7 @@ from tqdm import tqdm
 import mnist.config as config
 import mnist.constants as constants
 import mnist.ml.engines.evaluation_engine as ev_eng
+import mnist.ml.engines.inference_engine as inf_eng
 import mnist.ml.engines.logging_engine as log_eng
 import mnist.ml.engines.training_engine as tr_eng
 import mnist.ml.engines.validation_engine as val_eng
@@ -102,6 +103,7 @@ class ExperimentScheduler:
         self._validation_engine = val_eng.ValidationEngine()
         self._evaluation_engine = ev_eng.EvaluationEngine()
         self._logging_engine = log_eng.LoggingEngine(self._log_dir)
+        inf_eng.InferenceEngine().create_metagraph()
 
     ############################################################################
     # Private methods ##########################################################
