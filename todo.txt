@@ -1,0 +1,7 @@
+Next to-do's:
+
+- evaluation script
+- inference from PIL or numpy images
+- warning messages
+- fill in README.md
+- ReadOnly as external library
