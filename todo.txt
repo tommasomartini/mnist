@@ -8,3 +8,4 @@ Next to-do's:
 - graph structure in TensorBoard
 - use environmental variables to store paths
 - add experiments folders
+- store test set results on disk

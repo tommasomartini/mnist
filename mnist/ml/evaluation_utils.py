@@ -4,6 +4,8 @@ from tqdm import tqdm
 
 import mnist.config as config
 import mnist.ml.training_utils as train_utils
+from mnist.custom_utils.logger import DISABLE_PROGRESS_BAR
+from mnist.custom_utils.logger import LOGGER_LEVEL_NAME
 
 
 def evaluation_accumulator(batches):
@@ -59,14 +61,15 @@ def run_evaluation(evaluation_engine, dataset_def_path, dataset_name=None):
         batch_size=config.TrainingConfig.BATCH_SIZE_TEST,
         drop_last=False)
 
-    desc = 'Evaluating'
+    desc = '[{}] Evaluating'.format(LOGGER_LEVEL_NAME)
     if dataset_name:
         desc += ' on {}'.format(dataset_name)
     pbar = tqdm(
         evaluation_engine.evaluate_best_model_on_dataset(dataset_def),
         desc=desc,
         total=num_batches,
-        leave=True)
+        leave=True,
+        disable=DISABLE_PROGRESS_BAR)
 
     avg_loss, accuracy = evaluation_accumulator(pbar)
     return avg_loss, accuracy

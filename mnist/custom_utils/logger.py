@@ -44,3 +44,7 @@ TensorFlowLoggingLevels = {
 _tf_log_level = TensorFlowLoggingLevels['silent']
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = _tf_log_level
 tf.logging.set_verbosity(tf.logging.WARN)
+
+
+DISABLE_PROGRESS_BAR = std_logger.getEffectiveLevel() > logging.INFO
+LOGGER_LEVEL_NAME = logging.getLevelName(std_logger.getEffectiveLevel())
