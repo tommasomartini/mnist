@@ -7,3 +7,4 @@ Next to-do's:
 - ReadOnly as external library
 - graph structure in TensorBoard
 - use environmental variables to store paths
+- add experiments folders
