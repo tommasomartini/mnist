@@ -5,3 +5,5 @@ Next to-do's:
 - warning messages
 - fill in README.md
 - ReadOnly as external library
+- graph structure in TensorBoard
+- use environmental variables to store paths

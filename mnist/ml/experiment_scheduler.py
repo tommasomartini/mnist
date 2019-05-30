@@ -10,7 +10,8 @@ import mnist.ml.engines.inference_engine as inf_eng
 import mnist.ml.engines.logging_engine as log_eng
 import mnist.ml.engines.training_engine as tr_eng
 import mnist.ml.engines.validation_engine as val_eng
-import mnist.ml.training_utils as utils
+import mnist.ml.evaluation_utils as eval_utils
+import mnist.ml.training_utils as train_utils
 import mnist.paths as paths
 from mnist.custom_utils.logger import std_logger as logger
 
@@ -51,38 +52,6 @@ def _load_or_create_training_status(training_status_path):
         logger.info('Created new training status')
 
     return training_status
-
-
-def _evaluation_accumulator(batches):
-    """Runs the input batch generator and accumulates the evaluation
-    results.
-
-    In this implementation, the `batches` iterable must yield tuples like:
-        (
-            <0-based index of the batch>,
-            <batch loss>,
-            <number of true positives the batch>,
-            <size of the batch>,
-        ).
-
-    Args:
-        batches: An iterable of compatible tuples.
-
-    Returns:
-        A tuple (<average loss>, <accuracy>).
-    """
-    true_positives = 0
-    tot_batch_loss = 0
-    num_samples = 0
-    for batch_idx, batch_loss, batch_tp, batch_size in batches:
-        tot_batch_loss += batch_loss
-        true_positives += batch_tp
-        num_samples += batch_size
-
-    avg_loss = tot_batch_loss / num_samples
-    accuracy = true_positives / num_samples
-
-    return avg_loss, accuracy
 
 
 class ExperimentScheduler:
@@ -152,7 +121,7 @@ class ExperimentScheduler:
             desc=pbar_desc,
             total=self._validation_engine.batches_per_epoch,
             leave=False)
-        avg_loss, accuracy = _evaluation_accumulator(pbar)
+        avg_loss, accuracy = eval_utils.evaluation_accumulator(pbar)
         return avg_loss, accuracy
 
     def _run_evaluation(self, testset_def_path, testset_name=None):
@@ -166,24 +135,11 @@ class ExperimentScheduler:
         Returns:
             A tuple (<average loss>, <accuracy>).
         """
-        with open(testset_def_path, 'r') as f:
-            testset_def = json.load(f)
-
-        num_batches = utils.batches_per_epoch(
-            dataset_size=len(testset_def),
-            batch_size=config.TrainingConfig.BATCH_SIZE_TEST,
-            drop_last=False)
-
-        desc = 'Evaluating'
-        if testset_name:
-            desc += ' on {}'.format(testset_name)
-        pbar = tqdm(
-            self._evaluation_engine.evaluate_best_model_on_dataset(testset_def),
-            desc=desc,
-            total=num_batches,
-            leave=False)
-
-        avg_loss, accuracy = _evaluation_accumulator(pbar)
+        avg_loss, accuracy = eval_utils.run_evaluation(
+            evaluation_engine=self._evaluation_engine,
+            dataset_def_path=testset_def_path,
+            dataset_name=testset_name
+        )
         return avg_loss, accuracy
 
     ############################################################################
@@ -253,7 +209,7 @@ class ExperimentScheduler:
                     total=self._training_engine.batches_per_epoch,
                     desc=pbar_desc)
         for batch_idx, loss, loss_summary in pbar:
-            cursor = utils.epoch_cursor(
+            cursor = train_utils.epoch_cursor(
                 epoch_idx=epoch_idx,
                 batch_idx=batch_idx,
                 batches_per_epoch=self._training_engine.batches_per_epoch)
