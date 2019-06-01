@@ -37,6 +37,12 @@ def build_training_graph(training_set_def):
             loss,
             collections=[naming.Names.TRAINING_SUMMARY_COLLECTION])
 
+        # Register the logits for histogram logging.
+        tf.summary.histogram(
+            naming.Names.LOGITS,
+            logits,
+            collections=[naming.Names.TRAINING_SUMMARY_COLLECTION])
+
         optimizer = tf.train.GradientDescentOptimizer(
             config.ExperimentConfig.LEARNING_RATE)
 

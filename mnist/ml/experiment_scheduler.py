@@ -216,12 +216,12 @@ class ExperimentScheduler:
                     total=self._training_engine.batches_per_epoch,
                     desc=pbar_desc,
                     disable=DISABLE_PROGRESS_BAR)
-        for batch_idx, loss, loss_summary in pbar:
+        for batch_idx, loss, train_summary in pbar:
             cursor = train_utils.epoch_cursor(
                 epoch_idx=epoch_idx,
                 batch_idx=batch_idx,
                 batches_per_epoch=self._training_engine.batches_per_epoch)
-            self._logging_engine.log_summary(summary=loss_summary,
+            self._logging_engine.log_summary(summary=train_summary,
                                              epoch_cursor=cursor)
 
         # Save the checkpoint on disk.

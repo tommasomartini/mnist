@@ -60,12 +60,13 @@ class TrainingEngine:
     def train_epoch(self):
         """Performs the training of one epoch of the training set."""
         dataset_init_op = self._session.graph.get_operation_by_name(
-                naming.Names.DATASET_INIT_OP)
+            naming.Names.DATASET_INIT_OP)
         train_op = self._session.graph.get_operation_by_name(
             naming.Names.TRAINING_OPERATION)
         train_loss = self._session.graph.get_collection(tf.GraphKeys.LOSSES)[0]
-        loss_summary = self._session.graph.get_collection(
-            naming.Names.TRAINING_SUMMARY_COLLECTION)[0]
+        train_summaries = tf.summary.merge(
+            self._session.graph.get_collection(
+                naming.Names.TRAINING_SUMMARY_COLLECTION))
 
         self._session.run(dataset_init_op)
 
@@ -78,12 +79,12 @@ class TrainingEngine:
             try:
                 (_train_op_out,
                  train_loss_out,
-                 loss_summary_out) = self._session.run([train_op,
-                                                        train_loss,
-                                                        loss_summary])
+                 tain_summaries_out) = self._session.run([train_op,
+                                                          train_loss,
+                                                          train_summaries])
             except tf.errors.OutOfRangeError:
                 break
-            yield batch_idx, train_loss_out, loss_summary_out
+            yield batch_idx, train_loss_out, tain_summaries_out
 
     def resume(self):
         """Resumes the training session from a checkpoint file."""
