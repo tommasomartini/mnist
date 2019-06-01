@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from pyfakefs import fake_filesystem_unittest
@@ -51,24 +50,6 @@ class TestHashSubdir(unittest.TestCase):
         num_levels = 0
         with self.assertRaises(ValueError):
             fi._get_hash_subdir(input_str, num_levels)
-
-
-class TestMakeDirIfNotExists(fake_filesystem_unittest.TestCase):
-
-    def setUp(self):
-        self.setUpPyfakefs()
-        self._base_dir = '/my/base/dir'
-
-    def test_dir_exists_success(self):
-        os.makedirs(self._base_dir)
-        self.assertTrue(os.path.isdir(self._base_dir))
-        fi.mkdir_if_not_exists(self._base_dir)
-        self.assertTrue(os.path.isdir(self._base_dir))
-
-    def test_dir_does_not_exist_success(self):
-        self.assertFalse(os.path.isdir(self._base_dir))
-        fi.mkdir_if_not_exists(self._base_dir)
-        self.assertTrue(os.path.isdir(self._base_dir))
 
 
 ################################################################################

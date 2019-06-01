@@ -66,11 +66,6 @@ def _get_hash_subdir(input_str, num_levels):
     return hash_subdir
 
 
-def mkdir_if_not_exists(dir_path):
-    if not os.path.isdir(dir_path):
-        os.makedirs(dir_path)
-
-
 ################################################################################
 # File path getters ############################################################
 ################################################################################

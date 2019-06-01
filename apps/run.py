@@ -3,7 +3,7 @@ import mnist.paths as paths
 
 
 def main():
-    log_dir = paths.BasePaths.BASE_LOG_DIR
+    log_dir = paths.BasePaths.EXP_LOG_DIR
     scheduler.ExperimentScheduler(log_dir).run()
 
 
