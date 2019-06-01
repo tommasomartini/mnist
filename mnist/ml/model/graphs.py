@@ -48,8 +48,10 @@ def build_training_graph(training_set_def):
 
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.control_dependencies(update_ops):
-            _train_op = optimizer.minimize(loss=loss,
-                                           name=naming.Names.TRAINING_OPERATION)
+            grads_and_vars = optimizer.compute_gradients(loss=loss)
+            _train_op = optimizer.apply_gradients(
+                grads_and_vars=grads_and_vars,
+                name=naming.Names.TRAINING_OPERATION)
 
     return graph
 
