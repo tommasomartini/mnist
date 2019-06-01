@@ -11,7 +11,7 @@ class BasePaths(ro.ReadOnly):
     DATA_DIR = os.environ[_CNST.DATA_DIR_ENVVAR]
 
     # Where the output of the experiments will be stored.
-    LOG_DIR = os.environ[_CNST.LOG_DIR_ENVVAR]
+    BASE_LOG_DIR = os.environ[_CNST.BASE_LOG_DIR_ENVVAR]
 
     # Where the dataset definitions are stored.
     DATASET_DEF_DIR = os.environ[_CNST.DATASET_DEF_DIR_ENVVAR]
@@ -39,26 +39,26 @@ class DatasetDefinitions(ro.ReadOnly):
 class MetaGraphs(ro.ReadOnly):
     """Stores the paths to the MetaGraph files, containing the definitions
     of different graphs."""
-    TRAINING = os.path.join(BasePaths.LOG_DIR,
+    TRAINING = os.path.join(BasePaths.BASE_LOG_DIR,
                             constants.MetagraphFilenames.TRAINING)
-    VALIDATION = os.path.join(BasePaths.LOG_DIR,
+    VALIDATION = os.path.join(BasePaths.BASE_LOG_DIR,
                               constants.MetagraphFilenames.VALIDATION)
-    EVALUATION = os.path.join(BasePaths.LOG_DIR,
+    EVALUATION = os.path.join(BasePaths.BASE_LOG_DIR,
                               constants.MetagraphFilenames.EVALUATION)
-    INFERENCE = os.path.join(BasePaths.LOG_DIR,
+    INFERENCE = os.path.join(BasePaths.BASE_LOG_DIR,
                              constants.MetagraphFilenames.INFERENCE)
 
 
 class Checkpoints(ro.ReadOnly):
     """Stores the paths to the checkpoints generated during an experiment."""
-    LATEST_TRAINED = os.path.join(BasePaths.LOG_DIR,
+    LATEST_TRAINED = os.path.join(BasePaths.BASE_LOG_DIR,
                                   _CNST.LATEST_TRAINED_CKPT_NAME)
-    BEST_MODEL = os.path.join(BasePaths.LOG_DIR, _CNST.BEST_MODEL_CKPT_NAME)
+    BEST_MODEL = os.path.join(BasePaths.BASE_LOG_DIR, _CNST.BEST_MODEL_CKPT_NAME)
 
 
 class TrainingStatus(ro.ReadOnly):
     PATH = os.path.join(
-        BasePaths.LOG_DIR,
+        BasePaths.BASE_LOG_DIR,
         os.path.extsep.join((_CNST.TRAINING_STATUS_FILENAME,
                              _CNST.TRAINING_STATUS_EXTENSION))
     )

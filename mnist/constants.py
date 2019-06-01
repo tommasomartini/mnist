@@ -41,7 +41,7 @@ class Constants(ro.ReadOnly):
 
     # Environment variables.
     DATA_DIR_ENVVAR = 'MNIST_DATA_DIR'
-    LOG_DIR_ENVVAR = 'MNIST_LOG_DIR'
+    BASE_LOG_DIR_ENVVAR = 'MNIST_BASE_LOG_DIR'
     DATASET_DEF_DIR_ENVVAR = 'MNIST_DATASET_DEF_DIR'
 
     # Training status file.
