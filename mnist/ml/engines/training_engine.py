@@ -98,3 +98,7 @@ class TrainingEngine:
         self._saver.save(self._session,
                          paths.Checkpoints.LATEST_TRAINED,
                          write_meta_graph=False)
+
+    @property
+    def graph(self):
+        return self._session.graph

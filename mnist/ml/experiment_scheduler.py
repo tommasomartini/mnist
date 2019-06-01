@@ -73,7 +73,9 @@ class ExperimentScheduler:
         self._training_engine = tr_eng.TrainingEngine()
         self._validation_engine = val_eng.ValidationEngine()
         self._evaluation_engine = ev_eng.EvaluationEngine()
-        self._logging_engine = log_eng.LoggingEngine(self._log_dir)
+        self._logging_engine = log_eng.LoggingEngine(
+            log_dir=self._log_dir,
+            graph=self._training_engine.graph)
         inf_eng.InferenceEngine().create_metagraph()
 
     ############################################################################

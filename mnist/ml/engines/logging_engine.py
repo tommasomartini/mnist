@@ -9,11 +9,11 @@ from mnist.ml.model.graphs import build_logging_graph
 
 class LoggingEngine(object):
 
-    def __init__(self, log_dir):
+    def __init__(self, log_dir, graph=None):
         if not os.path.isdir(log_dir):
             raise IOError('Invalid log folder: {}'.format(log_dir))
 
-        self._summary_writer = tf.summary.FileWriter(log_dir, graph=None)
+        self._summary_writer = tf.summary.FileWriter(log_dir, graph=graph)
 
         plot_graph = build_logging_graph()
         self._session = tf.Session(graph=plot_graph)
