@@ -14,7 +14,7 @@ import mnist.ml.evaluation_utils as eval_utils
 import mnist.ml.training_utils as train_utils
 import mnist.paths as paths
 from mnist.custom_utils.logger import DISABLE_PROGRESS_BAR
-from mnist.custom_utils.logger import LOGGER_LEVEL_NAME
+from mnist.custom_utils.logger import PROGRESS_BAR_PREFIX
 from mnist.custom_utils.logger import std_logger as logger
 
 _CNST = constants.Constants
@@ -119,8 +119,8 @@ class ExperimentScheduler:
         Returns:
             A tuple (<average loss>, <accuracy>).
         """
-        pbar_desc = '[{}] Evaluating after {} training epochs' \
-                    ''.format(LOGGER_LEVEL_NAME, epoch_idx + 1)
+        pbar_desc = '{} Evaluating after {} training epochs' \
+                    ''.format(PROGRESS_BAR_PREFIX, epoch_idx + 1)
         pbar = tqdm(
             self._validation_engine.evaluate_latest_trained_model(),
             desc=pbar_desc,
@@ -208,8 +208,8 @@ class ExperimentScheduler:
         logger.info(log_msg)
 
     def _run_epoch(self, epoch_idx):
-        pbar_desc = '[{}] Training epoch {}/{}'.format(
-            LOGGER_LEVEL_NAME,
+        pbar_desc = '{} Training epoch {}/{}'.format(
+            PROGRESS_BAR_PREFIX,
             epoch_idx + 1,
             config.ExperimentConfig.NUM_EPOCHS)
         pbar = tqdm(self._training_engine.train_epoch(),

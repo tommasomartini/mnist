@@ -5,7 +5,7 @@ from tqdm import tqdm
 import mnist.config as config
 import mnist.ml.training_utils as train_utils
 from mnist.custom_utils.logger import DISABLE_PROGRESS_BAR
-from mnist.custom_utils.logger import LOGGER_LEVEL_NAME
+from mnist.custom_utils.logger import PROGRESS_BAR_PREFIX
 
 
 def evaluation_accumulator(batches):
@@ -61,7 +61,7 @@ def run_evaluation(evaluation_engine, dataset_def_path, dataset_name=None):
         batch_size=config.ExperimentConfig.BATCH_SIZE_TEST,
         drop_last=False)
 
-    desc = '[{}] Evaluating'.format(LOGGER_LEVEL_NAME)
+    desc = '{} Evaluating'.format(PROGRESS_BAR_PREFIX)
     if dataset_name:
         desc += ' on {}'.format(dataset_name)
     pbar = tqdm(

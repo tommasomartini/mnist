@@ -6,9 +6,11 @@ from python_log_indenter import IndentedLoggerAdapter
 
 import mnist.config as config
 
+_exp_code = config.ExperimentConfig.EXPERIMENT_CODE
+
 # General logger.
 _LOGGING_LEVEL = config.GeneralConfig.LOGGING_LEVEL
-_logging_format = '[%(levelname)s] %(message)s'
+_logging_format = '[{}][%(levelname)s] %(message)s'.format(_exp_code)
 
 # Warning!
 # When using TensorFlow, the standard logging is shadowed by absl.logging, as
@@ -29,6 +31,8 @@ _std_logger.handlers = [_std_stream_handler]
 _std_logger.setLevel(_LOGGING_LEVEL)
 std_logger = IndentedLoggerAdapter(_std_logger)
 
+_logger_level_name = logging.getLevelName(std_logger.getEffectiveLevel())
+
 # Turn off the TensorFlow logging.
 #   0 = all messages are logged (default behavior)
 #   1 = INFO messages are not printed
@@ -45,6 +49,6 @@ _tf_log_level = TensorFlowLoggingLevels['silent']
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = _tf_log_level
 tf.logging.set_verbosity(tf.logging.WARN)
 
-
+# Progress bars.
 DISABLE_PROGRESS_BAR = std_logger.getEffectiveLevel() > logging.INFO
-LOGGER_LEVEL_NAME = logging.getLevelName(std_logger.getEffectiveLevel())
+PROGRESS_BAR_PREFIX = '[{}][{}]'.format(_exp_code, _logger_level_name)
