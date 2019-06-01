@@ -25,7 +25,7 @@ class ValidationEngine:
         self.dataset_size = len(validation_set_def)
         self.batches_per_epoch = utils.batches_per_epoch(
             dataset_size=self.dataset_size,
-            batch_size=config.TrainingConfig.BATCH_SIZE_TRAINING,
+            batch_size=config.ExperimentConfig.BATCH_SIZE_TRAINING,
             drop_last=False)
 
         # Create and save the MetaGraph for the validation graph.

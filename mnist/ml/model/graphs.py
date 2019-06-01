@@ -1,10 +1,13 @@
 import tensorflow as tf
 
+import mnist.constants as constants
 import mnist.config as config
 import mnist.data.tensorflow_dataset as tf_ds
 import mnist.ml.model.cnn_architectures.easynet as easynet
 import mnist.ml.model.graph_components as gc
 import mnist.ml.model.naming as naming
+
+_CNST = constants.Constants
 
 
 def build_training_graph(training_set_def):
@@ -35,7 +38,7 @@ def build_training_graph(training_set_def):
             collections=[naming.Names.TRAINING_SUMMARY_COLLECTION])
 
         optimizer = tf.train.GradientDescentOptimizer(
-            config.TrainingConfig.LEARNING_RATE)
+            config.ExperimentConfig.LEARNING_RATE)
 
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.control_dependencies(update_ops):
@@ -73,8 +76,19 @@ def build_validation_graph(validation_set_def):
 
 
 def build_evaluation_graph():
-    input_types = config.TrainingConfig.INPUT_TYPES
-    input_shapes = config.TrainingConfig.INPUT_SHAPES
+    input_types = (
+        _CNST.IMAGE_DATA_TYPE,
+        _CNST.LABEL_DATA_TYPE
+    )
+    input_shapes = (
+        # Images.
+        (None,
+         _CNST.MNIST_IMAGE_HEIGTH,
+         _CNST.MNIST_IMAGE_WIDTH,
+         _CNST.MNIST_IMAGE_CHANNELS),
+        # Labels.
+        (None,),
+    )
 
     graph = tf.Graph()
     with graph.as_default():
@@ -106,8 +120,19 @@ def build_evaluation_graph():
 
 
 def build_inference_graph():
-    input_types = config.TrainingConfig.INPUT_TYPES
-    input_shapes = config.TrainingConfig.INPUT_SHAPES
+    input_types = (
+        _CNST.IMAGE_DATA_TYPE,
+        _CNST.LABEL_DATA_TYPE
+    )
+    input_shapes = (
+        # Images.
+        (None,
+         _CNST.MNIST_IMAGE_HEIGTH,
+         _CNST.MNIST_IMAGE_WIDTH,
+         _CNST.MNIST_IMAGE_CHANNELS),
+        # Labels.
+        (None,),
+    )
 
     graph = tf.Graph()
     with graph.as_default():

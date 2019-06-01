@@ -4,6 +4,7 @@ import os
 from enum import Enum
 
 import mnist.constants as constants
+import mnist.config as config
 
 _CNST = constants.Constants
 
@@ -84,7 +85,7 @@ def _get_sample_file_path(data_dir, sample_id, file_type):
 
     hash_subdir = _get_hash_subdir(
         sample_id,
-        num_levels=_CNST.NUM_HASH_SUBDIR_LEVELS)
+        num_levels=config.SetupConfig.NUM_HASH_SUBDIR_LEVELS)
     filename = str(sample_id) + os.path.extsep + file_ext
     filepath = os.path.join(data_dir, hash_subdir, filename)
     return filepath
@@ -141,7 +142,7 @@ def get_all_metadata_filepaths_from_dir(data_dir):
     # Add as many '*' as the number of subfolders.
     hash_subdir_pattern = tuple([
         '*' for _
-        in range(_CNST.NUM_HASH_SUBDIR_LEVELS)
+        in range(config.SetupConfig.NUM_HASH_SUBDIR_LEVELS)
     ])
 
     # Put the path pattern together into something like:

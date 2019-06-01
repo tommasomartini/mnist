@@ -11,8 +11,6 @@ import mnist.custom_utils.readonly as ro
 
 
 class Constants(ro.ReadOnly):
-    # File system.
-    NUM_HASH_SUBDIR_LEVELS = 2
 
     # Extensions.
     IMAGE_EXTENSION = 'png'

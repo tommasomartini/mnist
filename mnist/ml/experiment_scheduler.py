@@ -209,7 +209,7 @@ class ExperimentScheduler:
         pbar_desc = '[{}] Training epoch {}/{}'.format(
             LOGGER_LEVEL_NAME,
             epoch_idx + 1,
-            config.TrainingConfig.NUM_EPOCHS)
+            config.ExperimentConfig.NUM_EPOCHS)
         pbar = tqdm(self._training_engine.train_epoch(),
                     total=self._training_engine.batches_per_epoch,
                     desc=pbar_desc,
@@ -234,7 +234,7 @@ class ExperimentScheduler:
     ############################################################################
 
     def run(self):
-        num_epochs = config.TrainingConfig.NUM_EPOCHS
+        num_epochs = config.ExperimentConfig.NUM_EPOCHS
 
         latest_trained_epoch_idx = \
             self._training_status[_CNST.LATEST_TRAINED_KEY]

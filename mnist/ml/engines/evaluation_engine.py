@@ -43,7 +43,7 @@ class EvaluationEngine:
         dataset_size = len(dataset_def)
         batches_per_epoch = utils.batches_per_epoch(
             dataset_size=dataset_size,
-            batch_size=config.TrainingConfig.BATCH_SIZE_TEST,
+            batch_size=config.ExperimentConfig.BATCH_SIZE_TEST,
             drop_last=False)
 
         best_ckpt_prefix = paths.Checkpoints.BEST_MODEL
@@ -55,8 +55,8 @@ class EvaluationEngine:
         self._saver.restore(self._session, best_ckpt_prefix)
 
         # Fetch the input nodes.
-        handle_ph = \
-            self._session.graph.get_tensor_by_name(naming.Names.ITERATOR_HANDLE + ':0')
+        handle_ph = self._session.graph.get_tensor_by_name(
+            naming.Names.ITERATOR_HANDLE + ':0')
 
         # Fetch the output nodes.
         loss = self._session.graph.get_tensor_by_name(

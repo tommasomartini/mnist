@@ -58,7 +58,7 @@ def run_evaluation(evaluation_engine, dataset_def_path, dataset_name=None):
 
     num_batches = train_utils.batches_per_epoch(
         dataset_size=len(dataset_def),
-        batch_size=config.TrainingConfig.BATCH_SIZE_TEST,
+        batch_size=config.ExperimentConfig.BATCH_SIZE_TEST,
         drop_last=False)
 
     desc = '[{}] Evaluating'.format(LOGGER_LEVEL_NAME)

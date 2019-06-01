@@ -40,7 +40,7 @@ def training_set_from_dataset_definition(dataset_definition):
         .map(preproc.load_and_preprocess_sample,
              num_parallel_calls=AUTOTUNE) \
         .shuffle(buffer_size=num_samples) \
-        .batch(config.TrainingConfig.BATCH_SIZE_TRAINING,
+        .batch(config.ExperimentConfig.BATCH_SIZE_TRAINING,
                drop_remainder=True) \
         .prefetch(buffer_size=AUTOTUNE)
 
@@ -62,14 +62,14 @@ def _evaluation_set_from_dataset_definition(dataset_definition, batch_size):
 
 
 def validation_set_from_dataset_definition(dataset_definition):
-    batch_size = config.TrainingConfig.BATCH_SIZE_VALIDATION
+    batch_size = config.ExperimentConfig.BATCH_SIZE_VALIDATION
     dataset = _evaluation_set_from_dataset_definition(dataset_definition,
                                                       batch_size)
     return dataset
 
 
 def evaluation_set_from_dataset_definition(dataset_definition):
-    batch_size = config.TrainingConfig.BATCH_SIZE_TEST
+    batch_size = config.ExperimentConfig.BATCH_SIZE_TEST
     dataset = _evaluation_set_from_dataset_definition(dataset_definition,
                                                       batch_size)
     return dataset
