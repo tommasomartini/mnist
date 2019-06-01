@@ -5,12 +5,13 @@ import tensorflow as tf
 import mnist.config as config
 import mnist.data.preprocessing.preprocessing as preproc
 import mnist.file_interface as fi
+import mnist.paths as paths
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 
 def _images_and_labels_from_dataset_definition(dataset_definition):
-    data_dir = config.GeneralConfig.DATA_DIR
+    data_dir = paths.BasePaths.DATA_DIR
 
     all_image_paths = []
     all_sample_labels = []

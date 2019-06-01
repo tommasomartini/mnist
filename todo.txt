@@ -6,6 +6,8 @@ Next to-do's:
 - fill in README.md
 - ReadOnly as external library
 - graph structure in TensorBoard
-- use environmental variables to store paths
++ use environmental variables to store paths
 - add experiments folders
 - store test set results on disk
+- use random seed
+- histogram for kernels (or something else)

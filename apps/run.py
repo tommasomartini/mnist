@@ -1,9 +1,9 @@
-import mnist.config as config
 import mnist.ml.experiment_scheduler as scheduler
+import mnist.paths as paths
 
 
 def main():
-    log_dir = config.GeneralConfig.LOG_DIR
+    log_dir = paths.BasePaths.LOG_DIR
     scheduler.ExperimentScheduler(log_dir).run()
 
 

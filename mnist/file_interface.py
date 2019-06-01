@@ -3,8 +3,9 @@ import hashlib
 import os
 from enum import Enum
 
-import mnist.config as config
 import mnist.constants as constants
+
+_CNST = constants.Constants
 
 
 class _SampleFileType(Enum):
@@ -75,15 +76,15 @@ def mkdir_if_not_exists(dir_path):
 
 def _get_sample_file_path(data_dir, sample_id, file_type):
     if file_type == _SampleFileType.IMAGE:
-        file_ext = constants.Constants.IMAGE_EXTENSION
+        file_ext = _CNST.IMAGE_EXTENSION
     elif file_type == _SampleFileType.METADATA:
-        file_ext = constants.Constants.METADATA_EXTENSION
+        file_ext = _CNST.METADATA_EXTENSION
     else:
         raise ValueError('Unknown sample file type {}'.format(file_type))
 
     hash_subdir = _get_hash_subdir(
         sample_id,
-        num_levels=config.GeneralConfig.NUM_HASH_SUBDIR_LEVELS)
+        num_levels=_CNST.NUM_HASH_SUBDIR_LEVELS)
     filename = str(sample_id) + os.path.extsep + file_ext
     filepath = os.path.join(data_dir, hash_subdir, filename)
     return filepath
@@ -134,13 +135,13 @@ def get_all_metadata_filepaths_from_dir(data_dir):
     # The metadata file pattern should be something like '*.json'.
     meta_file_pattern = '*' \
                         + os.path.extsep \
-                        + constants.Constants.METADATA_EXTENSION
+                        + _CNST.METADATA_EXTENSION
 
     # Relative path like: '*/*/*'.
     # Add as many '*' as the number of subfolders.
     hash_subdir_pattern = tuple([
         '*' for _
-        in range(config.GeneralConfig.NUM_HASH_SUBDIR_LEVELS)
+        in range(_CNST.NUM_HASH_SUBDIR_LEVELS)
     ])
 
     # Put the path pattern together into something like:

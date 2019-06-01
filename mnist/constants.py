@@ -11,27 +11,40 @@ import mnist.custom_utils.readonly as ro
 
 
 class Constants(ro.ReadOnly):
+    # File system.
+    NUM_HASH_SUBDIR_LEVELS = 2
+
     # Extensions.
     IMAGE_EXTENSION = 'png'
     METADATA_EXTENSION = 'json'
     METAGRAPH_EXTENSION = 'meta'
 
+    # Dataset names.
     TRAINING_SET_NAME = 'training_set'
     VALIDATION_SET_NAME = 'validation_set'
     TEST_SET_NAMES = ['test_set']   # could be more than one
 
+    # Checkpoint names.
     LATEST_TRAINED_CKPT_NAME = 'latest_trained_ckpt'
     BEST_MODEL_CKPT_NAME = 'best_model_ckpt'
 
+    # MNIST-related constants.
     MNIST_IMAGE_WIDTH = 28
     MNIST_IMAGE_HEIGTH = 28
     MNIST_IMAGE_CHANNELS = 1
     MNIST_NUM_CLASSES = 10
 
+    # Data types.
     IMAGE_DATA_TYPE = np.float32
     LABEL_DATA_TYPE = np.int32
 
+    # Logging.
     EPOCH_CURSOR_MULTIPLIER = 1e6
+
+    # Environment variables.
+    DATA_DIR_ENVVAR = 'MNIST_DATA_DIR'
+    LOG_DIR_ENVVAR = 'MNIST_LOG_DIR'
+    DATASET_DEF_DIR_ENVVAR = 'MNIST_DATASET_DEF_DIR'
 
     # Training status file.
     TRAINING_STATUS_FILENAME = 'training_status'
