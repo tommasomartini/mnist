@@ -1,4 +1,6 @@
 import json
+import os
+import time
 
 from tqdm import tqdm
 
@@ -29,7 +31,7 @@ def evaluation_accumulator(batches):
     true_positives = 0
     tot_batch_loss = 0
     num_samples = 0
-    for batch_idx, batch_loss, batch_tp, batch_size in batches:
+    for _batch_idx, batch_loss, batch_tp, batch_size in batches:
         tot_batch_loss += batch_loss
         true_positives += batch_tp
         num_samples += batch_size
@@ -73,3 +75,16 @@ def run_evaluation(evaluation_engine, dataset_def_path, dataset_name=None):
 
     avg_loss, accuracy = evaluation_accumulator(pbar)
     return avg_loss, accuracy
+
+
+def save_evaluation_results(eval_results_path, eval_results):
+    """Saves the evaluation results on a file on disk.
+
+    The results are appended to a file. If the file does not exist,
+    a new one is created.
+
+    Args:
+        eval_results_path (str): Path to the evaluation results file.
+        eval_results (dict): Dict of pairs (<metric name>, <value>).
+    """
+    pass
