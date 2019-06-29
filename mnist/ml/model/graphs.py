@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-import mnist.constants as constants
 import mnist.config as config
+import mnist.constants as constants
 import mnist.data.tensorflow_dataset as tf_ds
 import mnist.ml.model.cnn_architectures.easynet as easynet
 import mnist.ml.model.graph_components as gc
@@ -49,6 +49,17 @@ def build_training_graph(training_set_def):
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.control_dependencies(update_ops):
             grads_and_vars = optimizer.compute_gradients(loss=loss)
+
+            # Add the gradient histogram for each variable.
+            #   ! Warning !
+            #       This considerably slows down the training!
+            # for grad, var in grads_and_vars:
+            #     var_name = var.name.split(':')[0]
+            #     tf.summary.histogram(
+            #         name='{}_grad'.format(var_name),
+            #         values=grad,
+            #         collections=[naming.Names.TRAINING_SUMMARY_COLLECTION])
+
             _train_op = optimizer.apply_gradients(
                 grads_and_vars=grads_and_vars,
                 name=naming.Names.TRAINING_OPERATION)
