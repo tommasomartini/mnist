@@ -55,6 +55,14 @@ class Constants(ro.ReadOnly):
     DEFAULT_EPOCH_IDX = -1
     DEFAULT_METRIC_VALUE = np.inf
 
+    # Evaluation results.
+    EVAL_RESULTS_TIMESTAMP_KEY = 'timestamp'
+    EVAL_RESULTS_DATASET_KEY = 'dataset'
+
+    # Evaluation results file.
+    EVALUATION_RESULTS_FILENAME = 'evaluation_results'
+    EVALUATION_RESULTS_EXTENSION = 'json'
+
 
 class MetadataFields(ro.ReadOnly):
     ID = 'id'

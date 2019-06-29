@@ -8,6 +8,6 @@ Next to-do's:
 + graph structure in TensorBoard
 + use environmental variables to store paths
 + add experiments folders
-- store test set results on disk
++ store test set results on disk
 + use random seed
-- histogram for kernels (or something else)
++ histogram for kernels (or something else)

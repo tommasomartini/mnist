@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 from tqdm import tqdm
 
@@ -182,6 +183,18 @@ class ExperimentScheduler:
                         '  accuracy: {:.3f}'.format(testset_name,
                                                     avg_loss,
                                                     accuracy))
+
+            # Append the new evaluation results.
+            eval_results = {
+                _CNST.EVAL_RESULTS_TIMESTAMP_KEY: time.strftime(
+                    '%a %d %b %Y %H:%M:%S'),
+                _CNST.EVAL_RESULTS_DATASET_KEY: testset_name,
+                'avg_loss': avg_loss,
+                'accuracy': accuracy,
+            }
+            eval_utils.save_evaluation_results(
+                eval_results_path=paths.EvaluationResults.PATH,
+                eval_results=eval_results)
 
     def _before_epoch(self, epoch_idx):
         pass

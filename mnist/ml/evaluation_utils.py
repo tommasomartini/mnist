@@ -1,6 +1,4 @@
 import json
-import os
-import time
 
 from tqdm import tqdm
 
@@ -80,11 +78,23 @@ def run_evaluation(evaluation_engine, dataset_def_path, dataset_name=None):
 def save_evaluation_results(eval_results_path, eval_results):
     """Saves the evaluation results on a file on disk.
 
-    The results are appended to a file. If the file does not exist,
-    a new one is created.
+    The evaluation results are stored as a list of dictionaries. Every time
+    a new result is to be saved, it is appended to the existing list.
 
     Args:
         eval_results_path (str): Path to the evaluation results file.
-        eval_results (dict): Dict of pairs (<metric name>, <value>).
+        eval_results (dict): Dict of results to store.
     """
-    pass
+    try:
+        # Try to open the evaluation list from an existing file.
+        with open(eval_results_path, 'r') as f:
+            evaluations_list = json.load(f)
+    except FileNotFoundError:
+        # If the file does not exist yet, create a new list.
+        evaluations_list = []
+
+    evaluations_list.append(eval_results)
+
+    with open(eval_results_path, 'w+') as f:
+        json.dump(evaluations_list, f, indent=4)
+

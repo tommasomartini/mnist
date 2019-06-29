@@ -74,3 +74,11 @@ class TrainingStatus(ro.ReadOnly):
         os.path.extsep.join((_CNST.TRAINING_STATUS_FILENAME,
                              _CNST.TRAINING_STATUS_EXTENSION))
     )
+
+
+class EvaluationResults(ro.ReadOnly):
+    PATH = os.path.join(
+        BasePaths.EXP_LOG_DIR,
+        os.path.extsep.join((_CNST.EVALUATION_RESULTS_FILENAME,
+                             _CNST.EVALUATION_RESULTS_EXTENSION))
+    )
