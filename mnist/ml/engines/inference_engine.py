@@ -15,7 +15,8 @@ class InferenceEngine:
     def __init__(self):
         self._session = None
 
-    def create_metagraph(self):
+    @staticmethod
+    def create_metagraph():
         # Creates and stores the MetaGraph for the inference graph.
         metagraph_path = paths.MetaGraphs.INFERENCE
         if not os.path.exists(metagraph_path):

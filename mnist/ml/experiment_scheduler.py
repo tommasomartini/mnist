@@ -77,7 +77,7 @@ class ExperimentScheduler:
         self._logging_engine = log_eng.LoggingEngine(
             log_dir=self._log_dir,
             graph=self._training_engine.graph)
-        inf_eng.InferenceEngine().create_metagraph()
+        inf_eng.InferenceEngine.create_metagraph()
 
     ############################################################################
     # Private methods ##########################################################
