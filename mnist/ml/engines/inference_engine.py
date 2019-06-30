@@ -17,7 +17,7 @@ class InferenceEngine:
 
     @staticmethod
     def create_metagraph():
-        # Creates and stores the MetaGraph for the inference graph.
+        """Creates and stores the MetaGraph for the inference graph."""
         metagraph_path = paths.MetaGraphs.INFERENCE
         if not os.path.exists(metagraph_path):
             logger.info('Creating new inference MetaGraph')
@@ -31,6 +31,7 @@ class InferenceEngine:
             self._session.close()
 
     def load(self):
+        """Loads the model weights of the "best" model trained so far."""
         metagraph_path = paths.MetaGraphs.INFERENCE
         if not os.path.exists(metagraph_path):
             raise IOError('No MetaGraph at {}'.format(metagraph_path))
@@ -59,6 +60,16 @@ class InferenceEngine:
                     'from {}'.format(best_ckpt_prefix))
 
     def load_preprocess_and_predict(self, image_paths):
+        """Uses the inference model to predict the class of the images provided
+        in input.
+
+        Args:
+            image_paths (list): List of image paths to predict on.
+
+        Returns:
+            A tuple (predictions, probabilities) where each prediction and set
+            of probabilities corresponds to one of the input images.
+        """
         if self._session is None:
             raise ValueError('This {} instance was not loaded'
                              ''.format(self.__class__.__name__))
