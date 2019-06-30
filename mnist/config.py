@@ -10,10 +10,11 @@ import mnist.custom_utils.readonly as ro
 class GeneralConfig(ro.ReadOnly):
     """Container for general configurations."""
     RANDOM_SEED = 0
-    LOGGING_LEVEL = logging.INFO
+    LOGGING_LEVEL = logging.WARNING
 
 
 class SetupConfig(ro.ReadOnly):
+    DRY = False
     NUM_HASH_SUBDIR_LEVELS = 2
     DATA_SPLIT_WEIGHTS = {
         constants.Constants.TRAINING_SET_NAME: 0.5,
