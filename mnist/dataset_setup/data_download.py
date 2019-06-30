@@ -9,8 +9,8 @@ from tqdm import tqdm
 import mnist.file_interface as fi
 import mnist.paths as paths
 from mnist.constants import MetadataFields
-from mnist.custom_utils.logger import PROGRESS_BAR_PREFIX
-from mnist.custom_utils.logger import std_logger as logger
+from mnist.custom_utils.logger import SETUP_PROGRESS_BAR_PREFIX
+from mnist.custom_utils.logger import setup_logger as logger
 
 
 def _save_sample_image(data_dir, sample_id, raw_image, dry=False):
@@ -78,7 +78,7 @@ def download_mnist_data(data_dir, silent=False, dry=False):
 
     pbar = tqdm(enumerate(zip(raw_images,
                               raw_labels)),
-                desc='{} Downloading data'.format(PROGRESS_BAR_PREFIX),
+                desc='{} Downloading data'.format(SETUP_PROGRESS_BAR_PREFIX),
                 total=len(raw_images),
                 disable=silent)
     for sample_idx, (image, label) in pbar:

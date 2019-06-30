@@ -8,8 +8,8 @@ from tqdm import tqdm
 import mnist.config as config
 import mnist.constants as constants
 import mnist.file_interface as fi
-from mnist.custom_utils.logger import PROGRESS_BAR_PREFIX
-from mnist.custom_utils.logger import std_logger as logger
+from mnist.custom_utils.logger import SETUP_PROGRESS_BAR_PREFIX
+from mnist.custom_utils.logger import setup_logger as logger
 
 random.seed(config.GeneralConfig.RANDOM_SEED)
 
@@ -31,9 +31,10 @@ def _gather_samples_by_class(data_dir, silent=False):
     logger.debug('{} files to fetch from disk'.format(len(all_meta_paths)))
 
     class_samples = {}
-    pbar = tqdm(all_meta_paths,
-                desc='{} Collecting all samples'.format(PROGRESS_BAR_PREFIX),
-                disable=silent)
+    pbar = tqdm(
+        all_meta_paths,
+        desc='{} Collecting all samples'.format(SETUP_PROGRESS_BAR_PREFIX),
+        disable=silent)
     for meta_path in pbar:
         with open(meta_path, 'r') as f:
             meta = json.load(f)

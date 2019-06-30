@@ -10,7 +10,7 @@ import mnist.custom_utils.readonly as ro
 class GeneralConfig(ro.ReadOnly):
     """Container for general configurations."""
     RANDOM_SEED = 0
-    LOGGING_LEVEL = logging.WARNING
+    LOGGING_LEVEL = logging.INFO
 
 
 class SetupConfig(ro.ReadOnly):

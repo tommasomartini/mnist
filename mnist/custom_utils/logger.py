@@ -52,3 +52,19 @@ tf.logging.set_verbosity(tf.logging.WARN)
 # Progress bars.
 DISABLE_PROGRESS_BAR = std_logger.getEffectiveLevel() > logging.INFO
 PROGRESS_BAR_PREFIX = '[{}][{}]'.format(_exp_code, _logger_level_name)
+
+# Setup logger.
+_setup_logging_format = '[setup][%(levelname)s] %(message)s'
+_setup_formatter = logging.Formatter(_setup_logging_format)
+_setup_stream_handler = logging.StreamHandler()
+_setup_stream_handler.setFormatter(_setup_formatter)
+
+_setup_logger = logging.getLogger()
+_setup_logger.handlers = [_setup_stream_handler]
+_setup_logger.setLevel(_LOGGING_LEVEL)
+setup_logger = IndentedLoggerAdapter(_setup_logger)
+
+_setup_logger_level_name = \
+    logging.getLevelName(setup_logger.getEffectiveLevel())
+
+SETUP_PROGRESS_BAR_PREFIX = '[setup][{}]'.format(_setup_logger_level_name)
