@@ -1,10 +1,9 @@
 Next to-do's:
 
++ generate requirements.txt
 + evaluation script
-- inference from PIL or numpy images
 - warning messages
 - fill in README.md
-- ReadOnly as external library
 + graph structure in TensorBoard
 + use environmental variables to store paths
 + add experiments folders
