@@ -96,7 +96,7 @@ def generate_datasets(data_dir,
 
         num_samples = len(sample_ids)
         assigned_sample_ids = set()
-        for split_idx,\
+        for split_idx, \
             (split_name, frac) in enumerate(data_split_fracs.items()):
             logger.debug(split_name)
             logger.push(split_name).add()

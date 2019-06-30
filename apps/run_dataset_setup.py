@@ -1,9 +1,9 @@
 import os
 
 import mnist.config as config
+import mnist.dataset_setup.data_download as d_dload
+import mnist.dataset_setup.generate_datasets as gd
 import mnist.paths as paths
-import mnist.preparation.data_download as d_dload
-import mnist.preparation.generate_datasets as gd
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
                                 silent=False,
                                 dry=False)
 
-    data_split_weights = config.GeneralConfig.DATA_SPLIT_WEIGHTS
+    data_split_weights = config.SetupConfig.DATA_SPLIT_WEIGHTS
     gd.generate_datasets(data_dir=data_dir,
                          dataset_def_dir=dataset_def_dir,
                          data_split_weights=data_split_weights,

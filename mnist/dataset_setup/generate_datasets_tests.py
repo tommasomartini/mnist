@@ -4,8 +4,8 @@ import unittest
 from pyfakefs import fake_filesystem_unittest
 
 import mnist.constants as constants
+import mnist.dataset_setup.generate_datasets as gd
 import mnist.file_interface as fi
-import mnist.preparation.generate_datasets as gd
 
 
 class TestGatherSamplesByClass(fake_filesystem_unittest.TestCase):

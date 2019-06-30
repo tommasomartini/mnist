@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 from pyfakefs import fake_filesystem_unittest
 
-import mnist.preparation.data_download as dd
+import mnist.dataset_setup.data_download as dd
 
 
 class TestSaveSampleImage(fake_filesystem_unittest.TestCase):

@@ -97,4 +97,3 @@ def save_evaluation_results(eval_results_path, eval_results):
 
     with open(eval_results_path, 'w+') as f:
         json.dump(evaluations_list, f, indent=4)
-
